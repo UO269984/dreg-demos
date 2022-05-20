@@ -21,8 +21,8 @@ public class GeneralVehicle : Vehicle {
 	}
 	
 	protected override void updateControls() {
-		this.controls.throttle = Input.GetAxis("Throttle");
-		this.controls.brake = Input.GetAxis("Brake");
-		this.controls.steeringWheel = Input.GetAxis("Horizontal");
+		this.controls.throttle = InputManager.input.GetAxisAction("Throttle");
+		this.controls.brake = InputManager.input.GetAxisAction("Brake");
+		this.controls.steeringWheel = InputManager.input.GetAxisAction("SteeringWheel");
 	}
 }

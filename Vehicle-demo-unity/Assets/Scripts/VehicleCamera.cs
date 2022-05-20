@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camera : MonoBehaviour {
+public class VehicleCamera : MonoBehaviour {
 	public float lookSpeed = 200f;
 	
 	private float xRotation;
@@ -17,9 +17,9 @@ public class Camera : MonoBehaviour {
 	
 	public void Update() {
 		float mult = this.lookSpeed * Time.deltaTime;
-		this.xRotation += Input.GetAxis("Mouse X") * mult;
-		this.yRotation += Input.GetAxis("Mouse Y") * mult;
-		this.yRotation = Mathf.Clamp(this.yRotation, -80f, 20f);
+		this.xRotation += InputManager.input.GetAxisAction("Camera-X") * mult;
+		this.yRotation -= InputManager.input.GetAxisAction("Camera-Y") * mult;
+		this.yRotation = Mathf.Clamp(this.yRotation, -80f, 25f);
 		
 		transform.localRotation = Quaternion.Euler(0, this.xRotation, this.yRotation);
 	}
