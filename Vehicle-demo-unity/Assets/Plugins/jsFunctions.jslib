@@ -29,5 +29,16 @@ mergeInto(LibraryManager.library, {
 		var buffer = _malloc(bufferSize)
 		stringToUTF8(platform, buffer, bufferSize)
 		return buffer
+	},
+	
+	downloadFileBrowser: function(filename, data) {
+		filename = UTF8ToString(filename)
+		data = UTF8ToString(data)
+		
+		var link = document.createElement("a")
+		link.href = window.URL.createObjectURL(new Blob([data], {type: "text/plain"}))
+		link.download = filename
+		
+		link.click()
 	}
 })

@@ -40,6 +40,10 @@ public abstract class Vehicle : MonoBehaviour {
 		DrivingEngine.deleteVehicle(this.vehiclePtr);
 	}
 	
+	public IntPtr getVehiclePtr() {
+		return this.vehiclePtr;
+	}
+	
 	public void Update() {
 		updateControls();
 		Marshal.StructureToPtr(this.controls, this.controlsPtr, false);

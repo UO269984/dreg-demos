@@ -54,3 +54,5 @@ MonoBehaviour:
     bt: 12
   - name: SteeringWheel
     bt: 0
+  - name: InputLogging
+    bt: 8

@@ -10,15 +10,24 @@ public class DrivingEngine : MonoBehaviour {
 	
 	#if WEBGL && ! UNITY_EDITOR
 		public const String LIBRARY_NAME = "__Internal";
+		
+		[DllImport(LIBRARY_NAME)]
+		private static extern void downloadFileBrowser(IntPtr filename, IntPtr data);
 	
 	#else
 		public const String LIBRARY_NAME = "driving-engine";
+		
+		private static void downloadFileBrowser(IntPtr filename, IntPtr data) {}
 	#endif
 	
 	public delegate void PrintFunc(IntPtr toPrint);
+	public delegate void SaveFileFunc(IntPtr filename, IntPtr data);
 	
 	[DllImport(LIBRARY_NAME)]
 	public static extern void setPrintFunc(PrintFunc newPrintFunc);
+	
+	[DllImport(LIBRARY_NAME)]
+	public static extern void setSaveFileFunc(SaveFileFunc newSaveFileFunc);
 	
 	[DllImport(LIBRARY_NAME)]
 	public static extern IntPtr createVehicle(IntPtr config);
@@ -35,13 +44,30 @@ public class DrivingEngine : MonoBehaviour {
 	[DllImport(LIBRARY_NAME)]
 	public static extern void update(IntPtr vehicle, float delta);
 	
+	[DllImport(LIBRARY_NAME)]
+	public static extern IntPtr createInputLogger(IntPtr vehicle);
+	
+	[DllImport(LIBRARY_NAME)]
+	public static extern void logInput(IntPtr inputLogger, float delta);
+	
+	[DllImport(LIBRARY_NAME)]
+	public static extern void saveInputLogger(IntPtr inputLogger, IntPtr filename);
+	
 	static DrivingEngine() {
 		setPrintFunc(printFuncLog);
+		
+		if (Application.platform == RuntimePlatform.WebGLPlayer)
+			setSaveFileFunc(saveFileBrowser);
 	}
 	
 	[MonoPInvokeCallback(typeof(PrintFunc))]
 	private static void printFuncLog(IntPtr toPrint) {
 		Debug.Log("Driving: " + Marshal.PtrToStringAnsi(toPrint));
+	}
+	
+	[MonoPInvokeCallback(typeof(SaveFileFunc))]
+	private static void saveFileBrowser(IntPtr filename, IntPtr data) {
+		downloadFileBrowser(filename, data);
 	}
 }
 
