@@ -19,7 +19,7 @@ public class InputRecorder : MonoBehaviour {
 	private bool loggingBtEnabled = false;
 	
 	public void Start() {
-		this.vehiclePtr = GetComponent<Vehicle>().getVehiclePtr();
+		this.vehiclePtr = GetComponent<Vehicle>().GetVehiclePtr();
 	}
 	
 	public void Update() {
@@ -53,7 +53,7 @@ public class InputRecorder : MonoBehaviour {
 	public void StopLoggingInput(String filename) {
 		this.recordingText.SetActive(false);
 		
-		IntPtr filenameCharPtr = Marshal.AllocHGlobal(filename.Length + 1);
+		IntPtr filenameCharPtr = Marshal.AllocHGlobal((filename.Length + 1) * Size.Char);
 		int i = 0;
 		foreach (char c in filename)
 			Marshal.WriteByte(filenameCharPtr, i++, (Byte) c);

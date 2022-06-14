@@ -9,60 +9,79 @@ public abstract class Vehicle : MonoBehaviour {
 	
 	public Transform[] steeringWheelsModels;
 	
-	private float maxSteeringAngleConf;
-	
 	private IntPtr vehiclePtr;
 	private IntPtr vehicleStatePtr;
+	private IntPtr vehiclePropsPtr;
+	private IntPtr vehicleConfigPtr;
+	
+	protected VehicleConfig vehicleConfig;
 	
 	protected VehicleControls controls;
 	private IntPtr controlsPtr;
 	
 	public void Start() {
-		InitVehicle();
-		
-		IntPtr configPtr = Marshal.AllocHGlobal(Size.VehicleConfig);
-		Marshal.StructureToPtr(getVehicleConfig(ref this.maxSteeringAngleConf), configPtr, false);
-		
-		this.vehiclePtr = DrivingEngine.createVehicle(configPtr);
+		this.vehiclePtr = DrivingEngine.createVehicle();
 		this.vehicleStatePtr = DrivingEngine.getVehicleState(this.vehiclePtr);
+		this.vehiclePropsPtr = DrivingEngine.getVehicleProps(this.vehiclePtr);
+		this.vehicleConfigPtr = DrivingEngine.getVehicleConfig(this.vehiclePtr);
 		
-		Marshal.FreeHGlobal(configPtr);
+		this.vehicleConfig = new VehicleConfig();
+		Marshal.PtrToStructure(this.vehicleConfigPtr, this.vehicleConfig);
 		
 		this.controlsPtr = Marshal.AllocHGlobal(Size.VehicleControls);
 		this.controls = new VehicleControls();
+		
+		InitVehicle();
 	}
 	
 	protected virtual void InitVehicle() {}
-	protected abstract VehicleConfig getVehicleConfig(ref float maxSteeringAngle);
+	
+	protected void UpdateConfig() {
+		Marshal.StructureToPtr(this.vehicleConfig, this.vehicleConfigPtr, false);
+		DrivingEngine.updateVehicleConfig(this.vehiclePtr);
+	}
 	
 	public void OnDestroy() {
 		Marshal.FreeHGlobal(this.controlsPtr);
 		DrivingEngine.deleteVehicle(this.vehiclePtr);
 	}
 	
-	public IntPtr getVehiclePtr() {
+	public IntPtr GetVehiclePtr() {
 		return this.vehiclePtr;
 	}
 	
+	public VehicleState GetVehicleState() {
+		VehicleState vehicleState = new VehicleState();
+		Marshal.PtrToStructure(this.vehicleStatePtr, vehicleState);
+		
+		return vehicleState;
+	}
+	
+	public VehicleProps GetVehicleProps() {
+		VehicleProps vehicleProps = new VehicleProps();
+		Marshal.PtrToStructure(this.vehiclePropsPtr, vehicleProps);
+		
+		return vehicleProps;
+	}
+	
 	public void Update() {
-		updateControls();
+		UpdateControls();
 		Marshal.StructureToPtr(this.controls, this.controlsPtr, false);
 		DrivingEngine.setVehicleInput(this.vehiclePtr, this.controlsPtr);
 		
 		DrivingEngine.update(this.vehiclePtr, Time.deltaTime);
-		updateVehicle();
+		UpdateVehicle();
 	}
 	
-	protected abstract void updateControls();
+	protected abstract void UpdateControls();
 	
-	private void updateVehicle() {
-		VehicleState vehicleState = new VehicleState();
-		Marshal.PtrToStructure(this.vehicleStatePtr, vehicleState);
+	private void UpdateVehicle() {
+		VehicleState vehicleState = GetVehicleState();
 		
 		transform.position = new Vector3(vehicleState.pos.x, transform.position.y, vehicleState.pos.y);
 		transform.eulerAngles = vehicleState.rotation.toVector3();
 		
 		foreach (Transform wheel in this.steeringWheelsModels)
-			wheel.localEulerAngles = new Vector3(0, 0, this.maxSteeringAngleConf * controls.steeringWheel);
+			wheel.localEulerAngles = new Vector3(0, 0, this.vehicleConfig.maxSteeringAngle * controls.steeringWheel);
 	}
 }

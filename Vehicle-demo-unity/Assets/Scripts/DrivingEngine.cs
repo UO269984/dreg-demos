@@ -25,31 +25,33 @@ public class DrivingEngine : MonoBehaviour {
 	
 	[DllImport(LIBRARY_NAME)]
 	public static extern void setPrintFunc(PrintFunc newPrintFunc);
-	
 	[DllImport(LIBRARY_NAME)]
 	public static extern void setSaveFileFunc(SaveFileFunc newSaveFileFunc);
 	
 	[DllImport(LIBRARY_NAME)]
-	public static extern IntPtr createVehicle(IntPtr config);
-	
+	public static extern IntPtr createVehicle();
 	[DllImport(LIBRARY_NAME)]
 	public static extern void deleteVehicle(IntPtr vehicle);
+	[DllImport(LIBRARY_NAME)]
+	public static extern void resetVehicle(IntPtr vehicle);
 	
 	[DllImport(LIBRARY_NAME)]
 	public static extern void setVehicleInput(IntPtr vehicle, IntPtr input);
-	
 	[DllImport(LIBRARY_NAME)]
 	public static extern IntPtr getVehicleState(IntPtr vehicle);
-	
+	[DllImport(LIBRARY_NAME)]
+	public static extern IntPtr getVehicleProps(IntPtr vehicle);
+	[DllImport(LIBRARY_NAME)]
+	public static extern IntPtr getVehicleConfig(IntPtr vehicle);
+	[DllImport(LIBRARY_NAME)]
+	public static extern void updateVehicleConfig(IntPtr vehicle);
 	[DllImport(LIBRARY_NAME)]
 	public static extern void update(IntPtr vehicle, float delta);
 	
 	[DllImport(LIBRARY_NAME)]
 	public static extern IntPtr createInputLogger(IntPtr vehicle);
-	
 	[DllImport(LIBRARY_NAME)]
 	public static extern void logInput(IntPtr inputLogger, float delta);
-	
 	[DllImport(LIBRARY_NAME)]
 	public static extern void saveInputLogger(IntPtr inputLogger, IntPtr filename);
 	
@@ -72,13 +74,17 @@ public class DrivingEngine : MonoBehaviour {
 }
 
 public class Size {
-	public static int Vector3_Driving = 12;
-	public static int VehicleConfig = 2 * Vector3_Driving + 4;
-	public static int VehicleControls = 12;
+	public static int Char = Marshal.SizeOf(typeof(char));
+	public static int Int = Marshal.SizeOf(typeof(int));
+	public static int Float = Marshal.SizeOf(typeof(float));
+	public static int Vector3_Driving = 3 * Float;
+	public static int VehicleConfig = 2 * Vector3_Driving + Float;
+	public static int VehicleControls = 3 * Float;
 	public static int VehicleState = 2 * Vector3_Driving;
+	public static int VehicleProps = 2 * Float;
 }
 
-[StructLayout(LayoutKind.Sequential, Pack=4, CharSet=CharSet.Auto)]
+[StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Auto)]
 public class Vector3_Driving {
 	public float x;
 	public float y;
@@ -102,6 +108,7 @@ public class VehicleConfig {
 	public Vector3_Driving rearShaft;
 	public float maxSteeringAngle;
 	
+	public VehicleConfig() {}
 	public VehicleConfig(Vector3 frontShaft, Vector3 rearShaft, float maxSteeringAngle) {
 		this.frontShaft = new Vector3_Driving(frontShaft);
 		this.rearShaft = new Vector3_Driving(rearShaft);
@@ -110,7 +117,7 @@ public class VehicleConfig {
 	}
 }
 
-[StructLayout(LayoutKind.Sequential, Pack=4, CharSet=CharSet.Auto)]
+[StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Auto)]
 public class VehicleControls {
 	public float throttle;
 	public float brake;
@@ -121,4 +128,10 @@ public class VehicleControls {
 public class VehicleState {
 	public Vector3_Driving pos = new Vector3_Driving();
 	public Vector3_Driving rotation = new Vector3_Driving();
+}
+
+[StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Auto)]
+public class VehicleProps {
+	public float speed;
+	public float acceleration;
 }
