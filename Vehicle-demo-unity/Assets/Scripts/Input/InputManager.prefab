@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actions:
+  - name: Pause
+    bt: 16
+    trigger: 1
   - name: Camera-X
     bt: 2
     trigger: 0

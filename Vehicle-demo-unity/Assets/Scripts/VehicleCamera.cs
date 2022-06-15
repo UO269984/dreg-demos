@@ -11,8 +11,6 @@ public class VehicleCamera : MonoBehaviour {
 	public void Start() {
 		this.xRotation = transform.localRotation.x;
 		this.yRotation = transform.localRotation.y;
-		
-		Cursor.lockState = CursorLockMode.Locked;
 	}
 	
 	public void Update() {

@@ -46,6 +46,10 @@ public abstract class Vehicle : MonoBehaviour {
 		DrivingEngine.deleteVehicle(this.vehiclePtr);
 	}
 	
+	public void Reset() {
+		DrivingEngine.resetVehicle(this.vehiclePtr);
+	}
+	
 	public IntPtr GetVehiclePtr() {
 		return this.vehiclePtr;
 	}

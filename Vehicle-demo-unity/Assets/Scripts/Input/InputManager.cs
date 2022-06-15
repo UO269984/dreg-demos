@@ -17,7 +17,7 @@ public class InputManager : MonoBehaviour {
 	public static IInput input;
 	private GamepadInput gamepadInput;
 	
-	void Start() {
+	public void Start() {
 		this.gamepadInput = new GamepadInput();
 		foreach (InputAction action in this.actions)
 			this.gamepadInput.AddAction(action.name, action.bt);
