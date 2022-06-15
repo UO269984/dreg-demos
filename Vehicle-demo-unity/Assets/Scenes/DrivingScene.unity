@@ -476,6 +476,7 @@ GameObject:
   - component: {fileID: 725793775}
   - component: {fileID: 725793777}
   - component: {fileID: 725793776}
+  - component: {fileID: 725793778}
   m_Layer: 5
   m_Name: PauseUI
   m_TagString: Untagged
@@ -543,6 +544,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 725793774}
   m_CullTransparentMesh: 1
+--- !u!114 &725793778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 725793774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c56fee0b61e3480d81f370a6b088f2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &762424680
 GameObject:
   m_ObjectHideFlags: 0
