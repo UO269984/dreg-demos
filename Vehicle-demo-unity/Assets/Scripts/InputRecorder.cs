@@ -16,7 +16,6 @@ public class InputRecorder : MonoBehaviour {
 	public String inputLoggingFileWeb = "InputLog.csv";
 	
 	private bool loggingEnabled = false;
-	private bool loggingBtEnabled = false;
 	
 	public void Start() {
 		this.vehiclePtr = GetComponent<Vehicle>().GetVehiclePtr();
@@ -24,22 +23,17 @@ public class InputRecorder : MonoBehaviour {
 	
 	public void Update() {
 		if (InputManager.input.GetAxisAction("InputLogging") < 0) {
-			if (! this.loggingBtEnabled) {
-				this.loggingEnabled = ! this.loggingEnabled;
-				
-				if (this.loggingEnabled)
-					StartLoggingInput();
-				
-				else {
-					StopLoggingInput(
-						Application.platform == RuntimePlatform.WebGLPlayer ?
-						this.inputLoggingFileWeb : this.inputLoggingFile);
-				}
+			this.loggingEnabled = ! this.loggingEnabled;
+			
+			if (this.loggingEnabled)
+				StartLoggingInput();
+			
+			else {
+				StopLoggingInput(
+					Application.platform == RuntimePlatform.WebGLPlayer ?
+					this.inputLoggingFileWeb : this.inputLoggingFile);
 			}
-			this.loggingBtEnabled = true;
 		}
-		else
-			this.loggingBtEnabled = false;
 		
 		if (this.inputLogger != IntPtr.Zero)
 			DrivingEngine.logInput(this.inputLogger, Time.deltaTime);

@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour {
 	public struct InputAction {
 		public String name;
 		public GamepadBt bt;
+		public bool trigger;
 	}
 	
 	public InputAction[] actions;
@@ -22,5 +23,12 @@ public class InputManager : MonoBehaviour {
 			this.gamepadInput.AddAction(action.name, action.bt);
 		
 		input = this.gamepadInput.IsActive() ? (IInput) this.gamepadInput : (IInput) new DefaultInput();
+		
+		TriggerInput triggerInput = new TriggerInput(input);
+		foreach (InputAction action in this.actions) {
+			if (action.trigger)
+				triggerInput.AddTriggerAction(action.name);
+		}
+		input = triggerInput;
 	}
 }

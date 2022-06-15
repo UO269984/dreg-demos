@@ -46,13 +46,19 @@ MonoBehaviour:
   actions:
   - name: Camera-X
     bt: 2
+    trigger: 0
   - name: Camera-Y
     bt: 3
+    trigger: 0
   - name: Throttle
     bt: 13
+    trigger: 0
   - name: Brake
     bt: 12
+    trigger: 0
   - name: SteeringWheel
     bt: 0
+    trigger: 0
   - name: InputLogging
     bt: 8
+    trigger: 1
