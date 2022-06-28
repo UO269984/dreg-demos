@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class GeneralVehicle : Vehicle {
 	
+	public GameObject brakeClutchUI;
 	private HUD hud;
 	private Text brakeClutchTx;
 	private Image brakeClutchBG;
@@ -24,8 +25,8 @@ public class GeneralVehicle : Vehicle {
 	protected override void InitVehicle() {
 		this.hud = GetComponent<HUD>();
 		this.hud.neutralIndex = this.neutralIndex;
-		this.brakeClutchTx = this.hud.hudUI.transform.Find("BrakeClutchBG/BrakeClutchTx").GetComponent<Text>();
-		this.brakeClutchBG = this.hud.hudUI.transform.Find("BrakeClutchBG").GetComponent<Image>();
+		this.brakeClutchBG = this.brakeClutchUI.GetComponent<Image>();
+		this.brakeClutchTx = this.brakeClutchUI.transform.GetChild(0).GetComponent<Text>();
 		
 		this.vehicleConfig.power.torqueToRpmAccel = this.torqueToRpmAccel;
 		this.vehicleConfig.power.SetGearRatios(this.gearRatios);
