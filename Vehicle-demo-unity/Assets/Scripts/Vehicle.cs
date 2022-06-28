@@ -35,6 +35,7 @@ public abstract class Vehicle : MonoBehaviour {
 	}
 	
 	protected virtual void InitVehicle() {}
+	protected virtual void AfterVehicleReset() {}
 	
 	protected void UpdateConfig() {
 		Marshal.StructureToPtr(this.vehicleConfig, this.vehicleConfigPtr, false);
@@ -48,6 +49,7 @@ public abstract class Vehicle : MonoBehaviour {
 	
 	public void Reset() {
 		DrivingEngine.resetVehicle(this.vehiclePtr);
+		AfterVehicleReset();
 	}
 	
 	public IntPtr GetVehiclePtr() {
@@ -75,9 +77,11 @@ public abstract class Vehicle : MonoBehaviour {
 		
 		DrivingEngine.update(this.vehiclePtr, Time.deltaTime);
 		UpdateVehicle();
+		AfterVehicleUpdate();
 	}
 	
 	protected abstract void UpdateControls();
+	protected virtual void AfterVehicleUpdate() {}
 	
 	private void UpdateVehicle() {
 		VehicleState vehicleState = GetVehicleState();

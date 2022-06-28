@@ -62,6 +62,18 @@ MonoBehaviour:
   - name: SteeringWheel
     bt: 0
     trigger: 0
+  - name: Clutch
+    bt: 12
+    trigger: 0
+  - name: ToggleBrakeClutch
+    bt: 9
+    trigger: 1
+  - name: GearUp
+    bt: 11
+    trigger: 1
+  - name: GearDown
+    bt: 10
+    trigger: 1
   - name: InputLogging
     bt: 8
     trigger: 1
