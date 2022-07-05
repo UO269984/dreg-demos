@@ -20,10 +20,10 @@ public abstract class Vehicle : MonoBehaviour {
 	private IntPtr controlsPtr;
 	
 	public void Start() {
-		this.vehiclePtr = DrivingEngine.createVehicle();
-		this.vehicleStatePtr = DrivingEngine.getVehicleState(this.vehiclePtr);
-		this.vehiclePropsPtr = DrivingEngine.getVehicleProps(this.vehiclePtr);
-		this.vehicleConfigPtr = DrivingEngine.getVehicleConfig(this.vehiclePtr);
+		this.vehiclePtr = Dreg.createVehicle();
+		this.vehicleStatePtr = Dreg.getVehicleState(this.vehiclePtr);
+		this.vehiclePropsPtr = Dreg.getVehicleProps(this.vehiclePtr);
+		this.vehicleConfigPtr = Dreg.getVehicleConfig(this.vehiclePtr);
 		
 		this.vehicleConfig = new VehicleConfig();
 		Marshal.PtrToStructure(this.vehicleConfigPtr, this.vehicleConfig);
@@ -39,16 +39,16 @@ public abstract class Vehicle : MonoBehaviour {
 	
 	protected void UpdateConfig() {
 		Marshal.StructureToPtr(this.vehicleConfig, this.vehicleConfigPtr, false);
-		DrivingEngine.updateVehicleConfig(this.vehiclePtr);
+		Dreg.updateVehicleConfig(this.vehiclePtr);
 	}
 	
 	public void OnDestroy() {
 		Marshal.FreeHGlobal(this.controlsPtr);
-		DrivingEngine.deleteVehicle(this.vehiclePtr);
+		Dreg.deleteVehicle(this.vehiclePtr);
 	}
 	
 	public void Reset() {
-		DrivingEngine.resetVehicle(this.vehiclePtr);
+		Dreg.resetVehicle(this.vehiclePtr);
 		AfterVehicleReset();
 	}
 	
@@ -73,9 +73,9 @@ public abstract class Vehicle : MonoBehaviour {
 	public void Update() {
 		UpdateControls();
 		Marshal.StructureToPtr(this.controls, this.controlsPtr, false);
-		DrivingEngine.setVehicleInput(this.vehiclePtr, this.controlsPtr);
+		Dreg.setVehicleInput(this.vehiclePtr, this.controlsPtr);
 		
-		DrivingEngine.update(this.vehiclePtr, Time.deltaTime);
+		Dreg.update(this.vehiclePtr, Time.deltaTime);
 		UpdateVehicle();
 		AfterVehicleUpdate();
 	}

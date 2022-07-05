@@ -36,12 +36,12 @@ public class InputRecorder : MonoBehaviour {
 		}
 		
 		if (this.inputLogger != IntPtr.Zero)
-			DrivingEngine.logInput(this.inputLogger, Time.deltaTime);
+			Dreg.logInput(this.inputLogger, Time.deltaTime);
 	}
 	
 	public void StartLoggingInput() {
 		this.recordingText.SetActive(true);
-		this.inputLogger = DrivingEngine.createInputLogger(this.vehiclePtr);
+		this.inputLogger = Dreg.createInputLogger(this.vehiclePtr);
 	}
 	
 	public void StopLoggingInput(String filename) {
@@ -54,7 +54,7 @@ public class InputRecorder : MonoBehaviour {
 		
 		Marshal.WriteByte(filenameCharPtr, i, 0);
 		
-		DrivingEngine.saveInputLogger(this.inputLogger, filenameCharPtr);
+		Dreg.saveInputLogger(this.inputLogger, filenameCharPtr);
 		Marshal.FreeHGlobal(filenameCharPtr);
 		this.inputLogger = IntPtr.Zero;
 	}

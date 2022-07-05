@@ -6,7 +6,7 @@ using UnityEngine;
 using AOT;
 using System.Runtime.InteropServices;
 
-public class DrivingEngine : MonoBehaviour {
+public class Dreg : MonoBehaviour {
 	
 	#if WEBGL && ! UNITY_EDITOR
 		public const String LIBRARY_NAME = "__Internal";
@@ -15,7 +15,7 @@ public class DrivingEngine : MonoBehaviour {
 		private static extern void downloadFileBrowser(IntPtr filename, IntPtr data);
 	
 	#else
-		public const String LIBRARY_NAME = "driving-engine";
+		public const String LIBRARY_NAME = "dreg";
 		
 		private static void downloadFileBrowser(IntPtr filename, IntPtr data) {}
 	#endif
@@ -73,7 +73,7 @@ public class DrivingEngine : MonoBehaviour {
 	[DllImport(LIBRARY_NAME)]
 	public static extern void saveInputLogger(IntPtr inputLogger, IntPtr filename);
 	
-	static DrivingEngine() {
+	static Dreg() {
 		setPrintFunc(printFuncLog);
 		
 		if (Application.platform == RuntimePlatform.WebGLPlayer)
@@ -109,13 +109,13 @@ public class Size {
 public class Graph {
 	public static void LoadLinearGraph(IntPtr graph, Vector2_Driving[] refs) {
 		IntPtr arrayPtr = Vector2ArrayToPtr(refs);
-		DrivingEngine.loadLinearGraph(graph, arrayPtr, (UIntPtr) refs.Length);
+		Dreg.loadLinearGraph(graph, arrayPtr, (UIntPtr) refs.Length);
 		Marshal.FreeHGlobal(arrayPtr);
 	}
 	
 	public static void LoadBezierGraph(IntPtr graph, Vector2_Driving[] refs, int samplesPerSegment) {
 		IntPtr arrayPtr = Vector2ArrayToPtr(refs);
-		DrivingEngine.loadBezierGraph(graph, arrayPtr, (UIntPtr) refs.Length, (UIntPtr) samplesPerSegment);
+		Dreg.loadBezierGraph(graph, arrayPtr, (UIntPtr) refs.Length, (UIntPtr) samplesPerSegment);
 		Marshal.FreeHGlobal(arrayPtr);
 	}
 	
@@ -183,8 +183,8 @@ public class PowerConfig {
 	public void SetGearRatios(float[] newGearRatios) {
 		this.gearsCount = newGearRatios.Length;
 		
-		DrivingEngine.deleteFloatArray(this.gearRatios);
-		this.gearRatios = DrivingEngine.createFloatArray((UIntPtr) this.gearsCount);
+		Dreg.deleteFloatArray(this.gearRatios);
+		this.gearRatios = Dreg.createFloatArray((UIntPtr) this.gearsCount);
 		Marshal.Copy(newGearRatios, 0, this.gearRatios, this.gearsCount);
 	}
 }
