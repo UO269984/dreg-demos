@@ -35,13 +35,13 @@ public class HUD : MonoBehaviour {
 	}
 	
 	public void UpdateHUD(VehicleControls controls, VehicleProps props) {
-		this.gearText.text = controls.gear != this.neutralIndex ? (controls.gear - this.neutralIndex).ToString() : "N";
-		this.speedText.text = (props.speed * 3.6).ToString("0.0") + " Km/h";
-		this.rpmText.text = props.engineRpm.ToString("0") + " rpm";
+		this.gearText.text = controls.Gear != this.neutralIndex ? (controls.Gear - this.neutralIndex).ToString() : "N";
+		this.speedText.text = (props.Speed * 3.6).ToString("0.0") + " Km/h";
+		this.rpmText.text = props.EngineRpm.ToString("0") + " rpm";
 		
-		this.throttleBar.SetProgress(controls.throttle);
-		this.brakeBar.SetProgress(controls.brake);
-		this.clutchBar.SetProgress(controls.clutch);
+		this.throttleBar.SetProgress(controls.Throttle);
+		this.brakeBar.SetProgress(controls.Brake);
+		this.clutchBar.SetProgress(controls.Clutch);
 	}
 	
 	public Color Transparent(Color color) {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GeneralVehicle : Vehicle {
+public class GeneralVehicle : AbstractVehicle {
 	
 	public GameObject brakeClutchUI;
 	private HUD hud;
@@ -28,48 +28,51 @@ public class GeneralVehicle : Vehicle {
 		this.brakeClutchBG = this.brakeClutchUI.GetComponent<Image>();
 		this.brakeClutchTx = this.brakeClutchUI.transform.GetChild(0).GetComponent<Text>();
 		
-		this.vehicleConfig.power.torqueToRpmAccel = this.torqueToRpmAccel;
-		this.vehicleConfig.power.SetGearRatios(this.gearRatios);
-		this.vehicleConfig.power.driveRatio = this.driveRatio;
+		this.vehicle.Config.Power.TorqueToRpmAccel = this.torqueToRpmAccel;
+		this.vehicle.Config.Power.GearRatios = this.gearRatios;
+		this.vehicle.Config.Power.DriveRatio = this.driveRatio;
 		
-		this.vehicleConfig.wheels.diameter = 0.5f;
+		this.vehicle.Config.Wheels.Diameter = 0.5f;
 		
-		this.vehicleConfig.frontShaft = new Vector3_Driving(this.frontShaft.position - transform.position);
-		this.vehicleConfig.rearShaft = new Vector3_Driving(this.rearShaft.position - transform.position);
-		this.vehicleConfig.maxSteeringAngle = this.maxSteeringAngle;
-		this.vehicleConfig.mass = this.mass;
+		this.vehicle.Config.FrontShaft = this.frontShaft.position - transform.position;
+		this.vehicle.Config.RearShaft = this.rearShaft.position - transform.position;
+		this.vehicle.Config.MaxSteeringAngle = this.maxSteeringAngle;
+		this.vehicle.Config.Mass = this.mass;
 		
-		UpdateConfig();
+		this.vehicle.UpdateConfig();
 		InitGraphs();
-		AfterVehicleReset();
+		
+		this.controls.Gear = this.neutralIndex;
+		SetBrakeActive(true);
 	}
 	
 	private void InitGraphs() {
-		Graph.LoadLinearGraph(this.vehicleConfig.power.throttleCurve, new Vector2_Driving[] {
-			new Vector2_Driving(0, 0.02f),
-			new Vector2_Driving(0.05f, 0.02f),
-			new Vector2_Driving(1, 1)});
+		this.vehicle.Config.Power.ThrottleCurve.LoadLinearGraph(new Vector2[] {
+			new Vector2(0, 0.02f),
+			new Vector2(0.05f, 0.02f),
+			new Vector2(1, 1)});
 		
-		Graph.LoadLinearGraph(this.vehicleConfig.power.engineCurve, new Vector2_Driving[] {
-			new Vector2_Driving(0, 50),
-			new Vector2_Driving(1000, 500)});
+		this.vehicle.Config.Power.EngineCurve.LoadLinearGraph(new Vector2[] {
+			new Vector2(0, 50),
+			new Vector2(1000, 500)});
 		
-		Graph.LoadLinearGraph(this.vehicleConfig.power.looseEngineRpmCurve, new Vector2_Driving[] {
-			new Vector2_Driving(0, 0),
-			new Vector2_Driving(1, 5000)});
+		this.vehicle.Config.Power.LooseEngineRpmCurve.LoadLinearGraph(new Vector2[] {
+			new Vector2(0, 0),
+			new Vector2(1, 5000)});
 		
-		Graph.LoadLinearGraph(this.vehicleConfig.power.engineBrakeCurve, new Vector2_Driving[] {
-			new Vector2_Driving(0, 0),
-			new Vector2_Driving(250, -40),
-			new Vector2_Driving(5000, -100)});
+		this.vehicle.Config.Power.EngineBrakeCurve.LoadLinearGraph(new Vector2[] {
+			new Vector2(0, 0),
+			new Vector2(250, -40),
+			new Vector2(5000, -100)});
 		
-		Graph.LoadLinearGraph(this.vehicleConfig.power.clutchCurve, new Vector2_Driving[] {
-			new Vector2_Driving(0, 600),
-			new Vector2_Driving(1, 0)});
+		this.vehicle.Config.Power.ClutchCurve.LoadLinearGraph(new Vector2[] {
+			new Vector2(0, 600),
+			new Vector2(1, 0)});
 	}
 	
-	protected override void AfterVehicleReset() {
-		this.controls.gear = this.neutralIndex;
+	public override void Reset() {
+		base.Reset();
+		this.controls.Gear = this.neutralIndex;
 		SetBrakeActive(true);
 	}
 	
@@ -77,10 +80,10 @@ public class GeneralVehicle : Vehicle {
 		if (InputManager.input.GetAxisAction("ToggleBrakeClutch") > 0)
 			SetBrakeActive(! this.brakeActive);
 		
-		this.controls.throttle = InputManager.input.GetAxisAction("Throttle");
-		this.controls.brake = this.brakeActive ? InputManager.input.GetAxisAction("Brake") : 0;
-		this.controls.steeringWheel = InputManager.input.GetAxisAction("SteeringWheel");
-		this.controls.clutch = ! this.brakeActive ? InputManager.input.GetAxisAction("Clutch") : 0;
+		this.controls.Throttle = InputManager.input.GetAxisAction("Throttle");
+		this.controls.Brake = this.brakeActive ? InputManager.input.GetAxisAction("Brake") : 0;
+		this.controls.SteeringWheel = InputManager.input.GetAxisAction("SteeringWheel");
+		this.controls.Clutch = ! this.brakeActive ? InputManager.input.GetAxisAction("Clutch") : 0;
 		
 		if (InputManager.input.GetButtonAction("GearUp"))
 			ChangeGear(1);
@@ -90,9 +93,9 @@ public class GeneralVehicle : Vehicle {
 	}
 	
 	private void ChangeGear(int gearDelta) {
-		int newGear = this.controls.gear + gearDelta;
+		int newGear = this.controls.Gear + gearDelta;
 		if (newGear >= 0 && newGear < this.gearRatios.Length)
-			this.controls.gear = newGear;
+			this.controls.Gear = newGear;
 	}
 	
 	private void SetBrakeActive(bool active) {
@@ -105,6 +108,6 @@ public class GeneralVehicle : Vehicle {
 	}
 	
 	protected override void AfterVehicleUpdate() {
-		this.hud.UpdateHUD(this.controls, GetVehicleProps());
+		this.hud.UpdateHUD(this.controls, this.vehicle.Props);
 	}
 }

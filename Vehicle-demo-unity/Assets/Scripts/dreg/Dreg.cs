@@ -6,7 +6,7 @@ using UnityEngine;
 using AOT;
 using System.Runtime.InteropServices;
 
-public class Dreg : MonoBehaviour {
+public class Dreg {
 	
 	#if WEBGL && ! UNITY_EDITOR
 		public const String LIBRARY_NAME = "__Internal";
@@ -95,74 +95,54 @@ public class Size {
 	public static int Char = Marshal.SizeOf(typeof(char));
 	public static int Int = Marshal.SizeOf(typeof(int));
 	public static int Float = Marshal.SizeOf(typeof(float));
+	public static int Size_t = Marshal.SizeOf(typeof(UIntPtr));
 	public static int Ptr = Marshal.SizeOf(typeof(IntPtr));
-	public static int Vector2_Driving = 2 * Float;
-	public static int Vector3_Driving = 3 * Float;
+	public static int Vector2_Dreg = 2 * Float;
+	public static int Vector3_Dreg = 3 * Float;
 	public static int PowerConfig = 6 * Ptr + 2 * Float + Int;
 	public static int WheelConfig = Float;
-	public static int VehicleConfig = 2 * Vector3_Driving + 2 * Float + PowerConfig + WheelConfig;
+	public static int VehicleConfig = 2 * Vector3_Dreg + 2 * Float + PowerConfig + WheelConfig;
 	public static int VehicleControls = 4 * Float + Int;
-	public static int VehicleState = 2 * Vector3_Driving;
+	public static int VehicleState = 2 * Vector3_Dreg;
 	public static int VehicleProps = 7 * Float;
 }
 
-public class Graph {
-	public static void LoadLinearGraph(IntPtr graph, Vector2_Driving[] refs) {
-		IntPtr arrayPtr = Vector2ArrayToPtr(refs);
-		Dreg.loadLinearGraph(graph, arrayPtr, (UIntPtr) refs.Length);
-		Marshal.FreeHGlobal(arrayPtr);
-	}
-	
-	public static void LoadBezierGraph(IntPtr graph, Vector2_Driving[] refs, int samplesPerSegment) {
-		IntPtr arrayPtr = Vector2ArrayToPtr(refs);
-		Dreg.loadBezierGraph(graph, arrayPtr, (UIntPtr) refs.Length, (UIntPtr) samplesPerSegment);
-		Marshal.FreeHGlobal(arrayPtr);
-	}
-	
-	private static IntPtr Vector2ArrayToPtr(Vector2_Driving[] array) {
-		IntPtr arrayPtr = Marshal.AllocHGlobal(array.Length * Size.Vector2_Driving);
-		long longPtr = arrayPtr.ToInt64();
-		
-		foreach (Vector2_Driving vector2 in array) {
-			Marshal.StructureToPtr(vector2, new IntPtr(longPtr), false);
-			longPtr += Size.Vector2_Driving;
-		}
-		return arrayPtr;
-	}
-}
-
 [StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Auto)]
-public class Vector2_Driving {
+public class Vector2_Dreg {
 	public float x;
 	public float y;
 	
-	public Vector2_Driving() {}
-	public Vector2_Driving(float x, float y) {
-		this.x = x;
-		this.y = y;
+	public Vector2_Dreg() {}
+	public Vector2_Dreg(Vector2 vector) {
+		this.x = vector.x;
+		this.y = vector.y;
+	}
+	
+	public Vector2 ToVector2() {
+		return new Vector2(this.x, this.y);
 	}
 }
 
 [StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Auto)]
-public class Vector3_Driving {
+public class Vector3_Dreg {
 	public float x;
 	public float y;
 	public float z;
 	
-	public Vector3_Driving() {}
-	public Vector3_Driving(Vector3 vector) {
+	public Vector3_Dreg() {}
+	public Vector3_Dreg(Vector3 vector) {
 		this.x = vector.x;
 		this.y = vector.z;
 		this.z = vector.y;
 	}
 	
-	public Vector3 toVector3() {
+	public Vector3 ToVector3() {
 		return new Vector3(this.x, this.z, this.y);
 	}
 }
 
 [StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Auto)]
-public class PowerConfig {
+public class PowerConfig_Struct {
 	public IntPtr throttleCurve;
 	public IntPtr engineCurve;
 	public IntPtr looseEngineRpmCurve;
@@ -190,24 +170,24 @@ public class PowerConfig {
 }
 
 [StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Auto)]
-public class WheelConfig {
+public class WheelConfig_Struct {
 	public float diameter;
 }
 
 [StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Auto)]
-public class VehicleConfig {
-	public Vector3_Driving frontShaft;
-	public Vector3_Driving rearShaft;
+public class VehicleConfig_Struct {
+	public Vector3_Dreg frontShaft;
+	public Vector3_Dreg rearShaft;
 	
 	public float maxSteeringAngle;
 	public float mass;
 	
-	public PowerConfig power;
-	public WheelConfig wheels;
+	public PowerConfig_Struct power;
+	public WheelConfig_Struct wheels;
 }
 
 [StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Auto)]
-public class VehicleControls {
+public class VehicleControls_Struct {
 	public float throttle;
 	public float brake;
 	public float steeringWheel;
@@ -217,13 +197,13 @@ public class VehicleControls {
 }
 
 [StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Auto)]
-public class VehicleState {
-	public Vector3_Driving pos = new Vector3_Driving();
-	public Vector3_Driving rotation = new Vector3_Driving();
+public class VehicleState_Struct {
+	public Vector3_Dreg pos = new Vector3_Dreg();
+	public Vector3_Dreg rotation = new Vector3_Dreg();
 }
 
 [StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Auto)]
-public class VehicleProps {
+public class VehicleProps_Struct {
 	public float speed;
 	public float acceleration;
 	
