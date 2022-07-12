@@ -23,13 +23,13 @@ public class Graph {
 		Dreg.deleteGraph(this.graphPtr);
 	}
 	
-	public void LoadLinearGraph(Vector2[] refs) {
+	public void LoadLinear(Vector2[] refs) {
 		IntPtr arrayPtr = Vector2ArrayToPtr(refs);
 		Dreg.loadLinearGraph(this.graphPtr, arrayPtr, (UIntPtr) refs.Length);
 		Marshal.FreeHGlobal(arrayPtr);
 	}
 	
-	public void LoadBezierGraph(Vector2[] refs, int samplesPerSegment) {
+	public void LoadBezier(Vector2[] refs, int samplesPerSegment) {
 		IntPtr arrayPtr = Vector2ArrayToPtr(refs);
 		Dreg.loadBezierGraph(this.graphPtr, arrayPtr, (UIntPtr) refs.Length, (UIntPtr) samplesPerSegment);
 		Marshal.FreeHGlobal(arrayPtr);

@@ -411,6 +411,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7862889586283243602}
   - component: {fileID: 7862889586283243603}
+  - component: {fileID: 6411151025457322824}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -449,6 +450,23 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7862889586283243597}
   m_CullTransparentMesh: 1
+--- !u!114 &6411151025457322824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7862889586283243597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b7a6fad8018ae344980c496414bd6be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hudUI: {fileID: 0}
+  throttleColor: {r: 0.10012458, g: 0.8490566, b: 0.4076555, a: 1}
+  brakeColor: {r: 1, g: 0.4292453, b: 0.44267488, a: 1}
+  clutchColor: {r: 1, g: 0.9732704, b: 0.43867922, a: 1}
+  neutralIndex: 0
 --- !u!1 &7862889586284510528
 GameObject:
   m_ObjectHideFlags: 0

@@ -163,8 +163,9 @@ GameObject:
   m_Component:
   - component: {fileID: 68682152}
   - component: {fileID: 68682153}
-  - component: {fileID: 68682154}
+  - component: {fileID: 68682156}
   - component: {fileID: 68682155}
+  - component: {fileID: 68682154}
   m_Layer: 0
   m_Name: Car
   m_TagString: Untagged
@@ -199,26 +200,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 68682151}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e23859abfc11882cba0351ccda7d86e, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e7d4e9400a0eb6b3933f6564f55c235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hud: {fileID: 926050709}
   steeringWheelsModels:
   - {fileID: 864123968248307691}
   - {fileID: 1520988247433340704}
-  brakeClutchUI: {fileID: 1371349985}
-  frontShaft: {fileID: 2084168611}
-  rearShaft: {fileID: 19015235}
-  maxSteeringAngle: 20
-  mass: 500
-  torqueToRpmAccel: 12
-  driveRatio: 1.5
-  neutralIndex: 1
-  gearRatios:
-  - -4
-  - 0
-  - 4
-  - 2
-  - 0.8
 --- !u!114 &68682154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -243,14 +231,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 68682151}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b7a6fad8018ae344980c496414bd6be, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b017d75f69ea6b5495a225301a792b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hudUI: {fileID: 1925159811}
-  throttleColor: {r: 0.10012458, g: 0.8490566, b: 0.4076555, a: 1}
-  brakeColor: {r: 1, g: 0.4292453, b: 0.44267488, a: 1}
-  clutchColor: {r: 1, g: 0.9732704, b: 0.43867922, a: 1}
-  neutralIndex: 0
+  hud: {fileID: 926050709}
+  brakeClutchUI: {fileID: 1371349985}
+--- !u!114 &68682156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 68682151}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 169be40b511e785ad8120f655f9050a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frontShaft: {fileID: 2084168611}
+  rearShaft: {fileID: 19015235}
+  maxSteeringAngle: 20
+  mass: 500
+  torqueToRpmAccel: 12
+  driveRatio: 1.5
+  neutralIndex: 1
+  gearRatios:
+  - -4
+  - 0
+  - 4
+  - 2
+  - 0.8
 --- !u!1 &114305247
 GameObject:
   m_ObjectHideFlags: 0
@@ -917,6 +927,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2002504876792565971, guid: 1b585a4c1e8cdcb10ac03c462cd71639, type: 3}
   m_PrefabInstance: {fileID: 871216485}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &926050709 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6411151025457322824, guid: 2580db04a88248e1c83cb11208ef468d, type: 3}
+  m_PrefabInstance: {fileID: 197030848}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b7a6fad8018ae344980c496414bd6be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &985999538
 GameObject:
   m_ObjectHideFlags: 0

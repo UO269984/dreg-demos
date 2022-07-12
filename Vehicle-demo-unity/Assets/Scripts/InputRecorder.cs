@@ -14,7 +14,7 @@ public class InputRecorder : MonoBehaviour {
 	private bool loggingEnabled = false;
 	
 	public void Start() {
-		this.inputLogger = new InputLogger(GetComponent<AbstractVehicle>().vehicle);
+		this.inputLogger = new InputLogger(GetComponent<BaseVehicle>().Vehicle);
 	}
 	
 	public void Update() {

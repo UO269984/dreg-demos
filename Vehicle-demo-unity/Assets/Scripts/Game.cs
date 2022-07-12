@@ -24,12 +24,12 @@ public class Game : MonoBehaviour {
 		Cursor.lockState = this.paused ? CursorLockMode.None : CursorLockMode.Locked;
 		this.pauseUI.SetActive(this.paused);
 		
-		foreach (AbstractVehicle vehicle in GetAllVehicles())
+		foreach (BaseVehicle vehicle in GetAllVehicles())
 			vehicle.enabled = ! this.paused;
 	}
 	
 	public void RestartGame() {
-		foreach (AbstractVehicle vehicle in GetAllVehicles())
+		foreach (BaseVehicle vehicle in GetAllVehicles())
 			vehicle.Reset();
 	}
 	
@@ -37,7 +37,7 @@ public class Game : MonoBehaviour {
 		Application.Quit();
 	}
 	
-	private AbstractVehicle[] GetAllVehicles() {
-		return (AbstractVehicle[]) GameObject.FindObjectsOfType(typeof(AbstractVehicle));
+	private BaseVehicle[] GetAllVehicles() {
+		return (BaseVehicle[]) GameObject.FindObjectsOfType(typeof(BaseVehicle));
 	}
 }

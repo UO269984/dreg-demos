@@ -46,6 +46,11 @@ public class PowerConfig {
 		set {this.powerConfig.driveRatio = value;}
 	}
 	
+	public int NeutralIndex {get; set;}
+	public int GearsCount {
+		get {return this.powerConfig.gearsCount;}
+	}
+	
 	public float[] GearRatios {
 		get {return this.powerConfig.GetGearRatios();}
 		set {this.powerConfig.SetGearRatios(value);}

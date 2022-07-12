@@ -5,13 +5,9 @@ using UnityEngine.UI;
 
 public class HUD : MonoBehaviour {
 	
-	public Transform hudUI;
 	public Color throttleColor;
 	public Color brakeColor;
 	public Color clutchColor;
-	
-	[HideInInspector]
-	public int neutralIndex;
 	
 	private Text gearText;
 	private Text speedText;
@@ -22,22 +18,24 @@ public class HUD : MonoBehaviour {
 	private ProgressBar clutchBar;
 	
 	public void Start() {
-		this.gearText = this.hudUI.Find("GearBG/Gear").GetComponent<Text>();
-		this.speedText = this.hudUI.Find("Speed").GetComponent<Text>();
-		this.rpmText = this.hudUI.Find("rpm").GetComponent<Text>();
+		this.gearText = this.transform.Find("GearBG/Gear").GetComponent<Text>();
+		this.speedText = this.transform.Find("Speed").GetComponent<Text>();
+		this.rpmText = this.transform.Find("rpm").GetComponent<Text>();
 		
-		this.throttleBar = this.hudUI.Find("PedalsPanel/ThrottleStatus").GetComponent<ProgressBar>();
-		this.brakeBar = this.hudUI.Find("PedalsPanel/BrakeStatus").GetComponent<ProgressBar>();
-		this.clutchBar = this.hudUI.Find("PedalsPanel/ClutchStatus").GetComponent<ProgressBar>();
+		this.throttleBar = this.transform.Find("PedalsPanel/ThrottleStatus").GetComponent<ProgressBar>();
+		this.brakeBar = this.transform.Find("PedalsPanel/BrakeStatus").GetComponent<ProgressBar>();
+		this.clutchBar = this.transform.Find("PedalsPanel/ClutchStatus").GetComponent<ProgressBar>();
 		this.throttleBar.SetColor(this.throttleColor);
 		this.brakeBar.SetColor(this.brakeColor);
 		this.clutchBar.SetColor(this.clutchColor);
 	}
 	
-	public void UpdateHUD(VehicleControls controls, VehicleProps props) {
-		this.gearText.text = controls.Gear != this.neutralIndex ? (controls.Gear - this.neutralIndex).ToString() : "N";
-		this.speedText.text = (props.Speed * 3.6).ToString("0.0") + " Km/h";
-		this.rpmText.text = props.EngineRpm.ToString("0") + " rpm";
+	public void UpdateHUD(Vehicle vehicle, VehicleControls controls) {
+		int neutralIndex = vehicle.Config.Power.NeutralIndex;
+		
+		this.gearText.text = controls.Gear != neutralIndex ? (controls.Gear - neutralIndex).ToString() : "N";
+		this.speedText.text = (vehicle.Props.Speed * 3.6).ToString("0.0") + " Km/h";
+		this.rpmText.text = vehicle.Props.EngineRpm.ToString("0") + " rpm";
 		
 		this.throttleBar.SetProgress(controls.Throttle);
 		this.brakeBar.SetProgress(controls.Brake);

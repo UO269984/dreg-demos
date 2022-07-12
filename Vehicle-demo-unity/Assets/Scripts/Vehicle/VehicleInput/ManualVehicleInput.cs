@@ -1,0 +1,54 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class ManualVehicleInput : VehicleInput {
+	
+	public HUD hud;
+	public GameObject brakeClutchUI;
+	private Text brakeClutchTx;
+	private Image brakeClutchBG;
+	private bool brakeActive;
+	
+	public void Start() {
+		this.brakeClutchBG = this.brakeClutchUI.GetComponent<Image>();
+		this.brakeClutchTx = this.brakeClutchUI.transform.GetChild(0).GetComponent<Text>();
+	}
+	
+	public override void Reset() {
+		this.controls.Gear = this.vehicle.Config.Power.NeutralIndex;
+		SetBrakeActive(true);
+	}
+	
+	public override void UpdateControls() {
+		if (InputManager.input.GetAxisAction("ToggleBrakeClutch") > 0)
+			SetBrakeActive(! this.brakeActive);
+		
+		this.controls.Throttle = InputManager.input.GetAxisAction("Throttle");
+		this.controls.Brake = this.brakeActive ? InputManager.input.GetAxisAction("Brake") : 0;
+		this.controls.SteeringWheel = InputManager.input.GetAxisAction("SteeringWheel");
+		this.controls.Clutch = ! this.brakeActive ? InputManager.input.GetAxisAction("Clutch") : 0;
+		
+		if (InputManager.input.GetButtonAction("GearUp"))
+			ChangeGear(1);
+		
+		if (InputManager.input.GetButtonAction("GearDown"))
+			ChangeGear(-1);
+	}
+	
+	private void ChangeGear(int gearDelta) {
+		int newGear = this.controls.Gear + gearDelta;
+		if (newGear >= 0 && newGear < this.vehicle.Config.Power.GearsCount)
+			this.controls.Gear = newGear;
+	}
+	
+	private void SetBrakeActive(bool active) {
+		this.brakeActive = active;
+		
+		this.brakeClutchTx.text = this.brakeActive ? "B" : "C";
+		this.brakeClutchBG.color = this.brakeActive ?
+			this.hud.Transparent(this.hud.brakeColor) :
+			this.hud.Transparent(this.hud.clutchColor);
+	}
+}
