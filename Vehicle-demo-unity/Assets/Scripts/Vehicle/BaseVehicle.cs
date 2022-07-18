@@ -9,9 +9,8 @@ public class BaseVehicle : MonoBehaviour {
 	
 	private ConfigLoader configLoader;
 	private VehicleInput vehicleInput;
-	
-	public HUD hud;
-	public Transform[] steeringWheelsModels;
+	private VehicleUI vehicleUI;
+	private bool initialized = false;
 	
 	public void Start() {
 		this.controls = new VehicleControls();
@@ -32,10 +31,33 @@ public class BaseVehicle : MonoBehaviour {
 		}
 		this.vehicleInput.Configure(this.Vehicle, this.controls);
 		this.vehicleInput.Reset();
+		
+		this.vehicleUI = GetComponent<VehicleUI>();
+		if (this.vehicleUI == null) {
+			Debug.LogError("VehicleUI script not found");
+			return;
+		}
+		this.initialized = true;
 	}
 	
 	public void OnDestroy() {
 		this.Vehicle.Delete();
+	}
+	
+	public void OnEnable() {
+		if (this.initialized) {
+			this.configLoader.enabled = true;
+			this.vehicleInput.enabled = true;
+			this.vehicleUI.enabled = true;
+		}
+	}
+	
+	public void OnDisable() {
+		if (this.initialized) {
+			this.configLoader.enabled = false;
+			this.vehicleInput.enabled = false;
+			this.vehicleUI.enabled = false;
+		}
 	}
 	
 	public void Reset() {
@@ -50,10 +72,6 @@ public class BaseVehicle : MonoBehaviour {
 		this.Vehicle.Update();
 		this.Vehicle.UpdateTransform(transform);
 		
-		foreach (Transform wheel in this.steeringWheelsModels)
-			wheel.localEulerAngles = new Vector3(0, 0, this.Vehicle.Config.MaxSteeringAngle * controls.SteeringWheel);
-		
-		if (this.hud != null)
-			this.hud.UpdateHUD(this.Vehicle, this.controls);
+		this.vehicleUI.UpdateUI(this.Vehicle, this.controls);
 	}
 }

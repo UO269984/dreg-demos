@@ -14,6 +14,7 @@ public class ManualVehicleInput : VehicleInput {
 	public void Start() {
 		this.brakeClutchBG = this.brakeClutchUI.GetComponent<Image>();
 		this.brakeClutchTx = this.brakeClutchUI.transform.GetChild(0).GetComponent<Text>();
+		SetBrakeActive(true);
 	}
 	
 	public override void Reset() {
@@ -46,9 +47,11 @@ public class ManualVehicleInput : VehicleInput {
 	private void SetBrakeActive(bool active) {
 		this.brakeActive = active;
 		
-		this.brakeClutchTx.text = this.brakeActive ? "B" : "C";
-		this.brakeClutchBG.color = this.brakeActive ?
-			this.hud.Transparent(this.hud.brakeColor) :
-			this.hud.Transparent(this.hud.clutchColor);
+		if (this.brakeClutchTx != null) {
+			this.brakeClutchTx.text = this.brakeActive ? "B" : "C";
+			this.brakeClutchBG.color = this.brakeActive ?
+				this.hud.Transparent(this.hud.brakeColor) :
+				this.hud.Transparent(this.hud.clutchColor);
+		}
 	}
 }
