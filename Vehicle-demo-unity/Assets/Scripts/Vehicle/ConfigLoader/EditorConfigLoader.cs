@@ -6,6 +6,8 @@ public class EditorConfigLoader : ConfigLoader {
 	
 	public Transform frontShaft;
 	public Transform rearShaft;
+	public Renderer referenceWheel;
+	
 	public float maxSteeringAngle = 20;
 	public float mass = 500;
 	
@@ -20,7 +22,7 @@ public class EditorConfigLoader : ConfigLoader {
 		config.Power.NeutralIndex = this.neutralIndex;
 		config.Power.DriveRatio = this.driveRatio;
 		
-		config.Wheels.Diameter = 0.5f;
+		config.Wheels.Diameter = this.referenceWheel.bounds.size.y;
 		
 		config.FrontShaft = this.frontShaft.position - transform.position;
 		config.RearShaft = this.rearShaft.position - transform.position;

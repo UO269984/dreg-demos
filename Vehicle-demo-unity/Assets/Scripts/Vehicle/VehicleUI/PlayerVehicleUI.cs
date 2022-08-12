@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class PlayerVehicleUI : VehicleUI {
 	
+	[System.Serializable]
+	public struct WheelData {
+		public Transform wheel;
+		public bool isSteeringWheel;
+	}
+	
 	public HUD hud;
-	public Transform[] steeringWheelsModels;
+	public WheelData[] wheels;
 	
 	public AudioSource engineAudio;
 	public float rpmMaxPitch = 6000;
+	private float wheelRotPos = 0;
 	
 	public void OnEnable() {
 		this.engineAudio.Play();
@@ -19,8 +26,14 @@ public class PlayerVehicleUI : VehicleUI {
 	}
 	
 	public override void UpdateUI(Vehicle vehicle, VehicleControls controls) {
-		foreach (Transform wheel in this.steeringWheelsModels)
-			wheel.localEulerAngles = new Vector3(0, 0, vehicle.Config.MaxSteeringAngle * controls.SteeringWheel);
+		this.wheelRotPos += ((vehicle.Props.WheelRpm / 60) * Time.deltaTime * 360);
+		
+		foreach (WheelData wheelData in this.wheels) {
+			Quaternion rot = Quaternion.Euler(0, 0,
+				wheelData.isSteeringWheel ? vehicle.Config.MaxSteeringAngle * controls.SteeringWheel : 0);
+			
+			wheelData.wheel.localRotation = rot * Quaternion.Euler(0, this.wheelRotPos, 0);
+		}
 		
 		if (this.hud != null)
 			this.hud.UpdateHUD(vehicle, controls);
