@@ -11,6 +11,10 @@ public class EditorConfigLoader : ConfigLoader {
 	public float maxSteeringAngle = 20;
 	public float mass = 500;
 	
+	public float brakeDiameter = 30;
+	public float brakeStaticFrictionCoef = 0.9f;
+	public float brakeKineticFrictionCoef = 0.7f;
+	
 	public float torqueToRpmAccel = 10;
 	public float driveRatio = 1;
 	public int neutralIndex = 0;
@@ -23,6 +27,9 @@ public class EditorConfigLoader : ConfigLoader {
 		config.Power.DriveRatio = this.driveRatio;
 		
 		config.Wheels.Diameter = this.referenceWheel.bounds.size.y;
+		config.Wheels.BrakeDiameter = this.brakeDiameter;
+		config.Wheels.BrakeStaticFrictionCoef = this.brakeStaticFrictionCoef;
+		config.Wheels.BrakeKineticFrictionCoef = this.brakeKineticFrictionCoef;
 		
 		config.FrontShaft = this.frontShaft.position - transform.position;
 		config.RearShaft = this.rearShaft.position - transform.position;
@@ -48,11 +55,15 @@ public class EditorConfigLoader : ConfigLoader {
 		
 		config.Power.EngineBrakeCurve.LoadLinear(new Vector2[] {
 			new Vector2(0, 0),
-			new Vector2(250, -40),
-			new Vector2(5000, -100)});
+			new Vector2(250, 40),
+			new Vector2(5000, 100)});
 		
 		config.Power.ClutchCurve.LoadLinear(new Vector2[] {
 			new Vector2(0, 600),
 			new Vector2(1, 0)});
+		
+		config.BrakeCurve.LoadLinear(new Vector2[] {
+			new Vector2(0, 0),
+			new Vector2(1, 500)});
 	}
 }

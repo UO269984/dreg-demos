@@ -172,6 +172,10 @@ public class PowerConfig_Struct {
 [StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Auto)]
 public class WheelConfig_Struct {
 	public float diameter;
+	
+	public float brakeDiameter;
+	public float brakeStaticFrictionCoef;
+	public float brakeKineticFrictionCoef;
 }
 
 [StructLayout(LayoutKind.Sequential, Pack=0, CharSet=CharSet.Auto)]
@@ -182,6 +186,7 @@ public class VehicleConfig_Struct {
 	public float maxSteeringAngle;
 	public float mass;
 	
+	public IntPtr brakeCurve;
 	public PowerConfig_Struct power;
 	public WheelConfig_Struct wheels;
 }
@@ -211,5 +216,8 @@ public class VehicleProps_Struct {
 	public float engineRpm;
 	public float engineTorque;
 	public float clutchTorque;
-	public float axleShaftTorque;
+	
+	public float powerTorque;
+	public float brakeTorque;
+	public float wheelTorque;
 }

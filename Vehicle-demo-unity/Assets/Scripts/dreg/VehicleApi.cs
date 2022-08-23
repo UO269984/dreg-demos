@@ -68,6 +68,21 @@ public class WheelConfig {
 		get {return this.wheelConfig.diameter;}
 		set {this.wheelConfig.diameter = value;}
 	}
+	
+	public float BrakeDiameter {
+		get {return this.wheelConfig.brakeDiameter;}
+		set {this.wheelConfig.brakeDiameter = value;}
+	}
+	
+	public float BrakeStaticFrictionCoef {
+		get {return this.wheelConfig.brakeStaticFrictionCoef;}
+		set {this.wheelConfig.brakeStaticFrictionCoef = value;}
+	}
+	
+	public float BrakeKineticFrictionCoef {
+		get {return this.wheelConfig.brakeKineticFrictionCoef;}
+		set {this.wheelConfig.brakeKineticFrictionCoef = value;}
+	}
 }
 
 public class VehicleConfig {
@@ -100,6 +115,11 @@ public class VehicleConfig {
 	public float Mass {
 		get {return this.config.mass;}
 		set {this.config.mass = value;}
+	}
+	
+	public Graph BrakeCurve {
+		get {return Graph.FromPtr(this.config.brakeCurve);}
+		set {this.config.brakeCurve = value.graphPtr;}
 	}
 }
 
@@ -184,5 +204,7 @@ public class VehicleProps : PtrToObjConverter<VehicleProps_Struct> {
 	public float EngineRpm {get {return GetObj().engineRpm;}}
 	public float EngineTorque {get {return GetObj().engineTorque;}}
 	public float ClutchTorque {get {return GetObj().clutchTorque;}}
-	public float AxleShaftTorque {get {return GetObj().axleShaftTorque;}}
+	public float PowerTorque {get {return GetObj().powerTorque;}}
+	public float BrakeTorque {get {return GetObj().brakeTorque;}}
+	public float WheelTorque {get {return GetObj().wheelTorque;}}
 }
