@@ -5,11 +5,13 @@ using UnityEngine;
 public class Game : MonoBehaviour {
 	
 	public GameObject pauseUI;
+	public GameObject touchControlsUI;
 	
 	private bool paused = false;
 	
 	public void Start() {
 		Cursor.lockState = CursorLockMode.Locked;
+		this.touchControlsUI.SetActive(InputManager.inputType == InputType.Touch);
 	}
 
 	public void Update() {
@@ -38,6 +40,6 @@ public class Game : MonoBehaviour {
 	}
 	
 	private BaseVehicle[] GetAllVehicles() {
-		return (BaseVehicle[]) GameObject.FindObjectsOfType(typeof(BaseVehicle));
+		return GameObject.FindObjectsOfType<BaseVehicle>();
 	}
 }

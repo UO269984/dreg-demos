@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8981249906059433405}
   - component: {fileID: 8981249906059433404}
+  - component: {fileID: 8717189852149933314}
   m_Layer: 0
   m_Name: InputManager
   m_TagString: Untagged
@@ -45,35 +46,64 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actions:
   - name: Pause
-    bt: 16
+    gamepadBt: 16
+    uiBt: {fileID: 0}
     trigger: 1
   - name: Camera-X
-    bt: 2
+    gamepadBt: 2
+    uiBt: {fileID: 0}
     trigger: 0
   - name: Camera-Y
-    bt: 3
+    gamepadBt: 3
+    uiBt: {fileID: 0}
     trigger: 0
   - name: Throttle
-    bt: 13
+    gamepadBt: 13
+    uiBt: {fileID: 0}
     trigger: 0
   - name: Brake
-    bt: 12
+    gamepadBt: 12
+    uiBt: {fileID: 0}
     trigger: 0
   - name: SteeringWheel
-    bt: 0
+    gamepadBt: 0
+    uiBt: {fileID: 0}
     trigger: 0
   - name: Clutch
-    bt: 12
+    gamepadBt: 12
+    uiBt: {fileID: 0}
     trigger: 0
   - name: ToggleBrakeClutch
-    bt: 9
+    gamepadBt: 9
+    uiBt: {fileID: 0}
     trigger: 1
   - name: GearUp
-    bt: 11
+    gamepadBt: 11
+    uiBt: {fileID: 0}
     trigger: 1
   - name: GearDown
-    bt: 10
+    gamepadBt: 10
+    uiBt: {fileID: 0}
     trigger: 1
   - name: InputLogging
-    bt: 8
+    gamepadBt: 8
+    uiBt: {fileID: 0}
     trigger: 1
+  gyroscopeAction: SteeringWheel
+  defaultActionsInTouch:
+  - Pause
+  - Camera-X
+  - Camera-Y
+--- !u!114 &8717189852149933314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8981249906059433403}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f9e5023fb883fd30ab3f73e8d57323f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vehicleCamera: {fileID: 0}

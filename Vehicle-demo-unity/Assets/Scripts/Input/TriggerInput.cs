@@ -13,10 +13,6 @@ public class TriggerInput : IInput {
 		this.triggeredActions[actionName] = false;
 	}
 	
-	public bool IsActive() {
-		return this.input.IsActive();
-	}
-	
 	public bool GetButtonAction(String actionName) {
 		bool prevTriggered;
 		

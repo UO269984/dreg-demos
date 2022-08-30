@@ -12,6 +12,12 @@ public class ManualVehicleInput : VehicleInput {
 	private bool brakeActive;
 	
 	public void Start() {
+		//Move HUD to make room for touch buttons
+		if (InputManager.inputType == InputType.Touch) {
+			this.hud.gameObject.transform.position += new Vector3(0, 70, 0);
+			this.brakeClutchUI.transform.position += new Vector3(0, 70, 0);
+		}
+		
 		this.brakeClutchBG = this.brakeClutchUI.GetComponent<Image>();
 		this.brakeClutchTx = this.brakeClutchUI.transform.GetChild(0).GetComponent<Text>();
 		SetBrakeActive(true);

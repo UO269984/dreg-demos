@@ -203,6 +203,7 @@ public class GamepadInput : IInput {
 	public GamepadInput() : this(msg => {}) {}
 	public GamepadInput(Action<String> logFunc) {
 		this.logFunc = logFunc;
+		UpdateMapping();
 	}
 	
 	private void UpdateMapping() {
@@ -271,13 +272,8 @@ public class GamepadInput : IInput {
 		}
 	}
 	
-	public bool IsActive() {
-		if (Input.GetJoystickNames().Length != 0 && Input.GetJoystickNames()[0].Length != 0) {
-			UpdateMapping();
-			return true;
-		}
-		else
-			return false;
+	public static bool IsActive() {
+		return Input.GetJoystickNames().Length != 0 && Input.GetJoystickNames()[0].Length != 0;
 	}
 	
 	public void AddAction(String actionName, GamepadBt bt) {
