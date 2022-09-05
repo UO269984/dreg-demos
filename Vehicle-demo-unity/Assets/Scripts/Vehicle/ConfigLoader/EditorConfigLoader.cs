@@ -20,7 +20,9 @@ public class EditorConfigLoader : ConfigLoader {
 	public int neutralIndex = 0;
 	public float[] gearRatios;
 	
-	public override void LoadConfig(VehicleConfig config) {
+	public override void LoadConfig(ConfigManager configManager) {
+		VehicleConfig config = configManager.Config;
+		
 		config.Power.TorqueToRpmAccel = this.torqueToRpmAccel;
 		config.Power.GearRatios = this.gearRatios;
 		config.Power.NeutralIndex = this.neutralIndex;

@@ -15,12 +15,24 @@ public class Graph {
 		this.graphPtr = graphPtr;
 	}
 	
+	public static void SetGraphSaveInitData(bool saveInitData) {
+		Dreg.setGraphSaveInitData((char) (saveInitData ? 1 : 0));
+	}
+	
+	public static void SetDefaultBezierSamples(UIntPtr samplesPerSegment) {
+		Dreg.setDefaultBezierSamples(samplesPerSegment);
+	}
+	
 	internal static Graph FromPtr(IntPtr graphPtr) {
 		return graphPtr == IntPtr.Zero ? null : new Graph(graphPtr);
 	}
 	
 	public void Delete() {
 		Dreg.deleteGraph(this.graphPtr);
+	}
+	
+	public Graph Clone() {
+		return new Graph(Dreg.cloneGraph(this.graphPtr));
 	}
 	
 	public void LoadLinear(Vector2[] refs) {

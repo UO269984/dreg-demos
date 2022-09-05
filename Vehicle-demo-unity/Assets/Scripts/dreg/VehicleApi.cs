@@ -5,159 +5,162 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class PowerConfig {
-	private PowerConfig_Struct powerConfig;
+	internal PowerConfig_Struct Struct;
+	internal PowerConfig() {}
 	
-	internal PowerConfig(PowerConfig_Struct powerConfig) {
-		this.powerConfig = powerConfig;
+	internal void Update() {
+		this.GearsCount = this.GearRatios.Length;
 	}
 	
 	public Graph ThrottleCurve {
-		get {return Graph.FromPtr(this.powerConfig.throttleCurve);}
-		set {this.powerConfig.throttleCurve = value.graphPtr;}
+		get {return Graph.FromPtr(this.Struct.throttleCurve);}
+		set {this.Struct.throttleCurve = value.graphPtr;}
 	}
 	
 	public Graph EngineCurve {
-		get {return Graph.FromPtr(this.powerConfig.engineCurve);}
-		set {this.powerConfig.engineCurve = value.graphPtr;}
+		get {return Graph.FromPtr(this.Struct.engineCurve);}
+		set {this.Struct.engineCurve = value.graphPtr;}
 	}
 	
 	public Graph LooseEngineRpmCurve {
-		get {return Graph.FromPtr(this.powerConfig.looseEngineRpmCurve);}
-		set {this.powerConfig.looseEngineRpmCurve = value.graphPtr;}
+		get {return Graph.FromPtr(this.Struct.looseEngineRpmCurve);}
+		set {this.Struct.looseEngineRpmCurve = value.graphPtr;}
 	}
 	
 	public Graph EngineBrakeCurve {
-		get {return Graph.FromPtr(this.powerConfig.engineBrakeCurve);}
-		set {this.powerConfig.engineBrakeCurve = value.graphPtr;}
+		get {return Graph.FromPtr(this.Struct.engineBrakeCurve);}
+		set {this.Struct.engineBrakeCurve = value.graphPtr;}
 	}
 	
 	public Graph ClutchCurve {
-		get {return Graph.FromPtr(this.powerConfig.clutchCurve);}
-		set {this.powerConfig.clutchCurve = value.graphPtr;}
+		get {return Graph.FromPtr(this.Struct.clutchCurve);}
+		set {this.Struct.clutchCurve = value.graphPtr;}
 	}
 	
 	public float TorqueToRpmAccel {
-		get {return this.powerConfig.torqueToRpmAccel;}
-		set {this.powerConfig.torqueToRpmAccel = value;}
+		get {return this.Struct.torqueToRpmAccel;}
+		set {this.Struct.torqueToRpmAccel = value;}
 	}
 	
 	public float DriveRatio {
-		get {return this.powerConfig.driveRatio;}
-		set {this.powerConfig.driveRatio = value;}
+		get {return this.Struct.driveRatio;}
+		set {this.Struct.driveRatio = value;}
 	}
 	
 	public int NeutralIndex {get; set;}
-	public int GearsCount {
-		get {return this.powerConfig.gearsCount;}
-	}
+	public int GearsCount {get; private set;}
 	
 	public float[] GearRatios {
-		get {return this.powerConfig.GetGearRatios();}
-		set {this.powerConfig.SetGearRatios(value);}
+		get {return this.Struct.GetGearRatios();}
+		set {
+			this.Struct.SetGearRatios(value);
+			this.GearsCount = value.Length;
+		}
 	}
 }
 
 public class WheelConfig {
-	private WheelConfig_Struct wheelConfig;
-	
-	internal WheelConfig(WheelConfig_Struct wheelConfig) {
-		this.wheelConfig = wheelConfig;
-	}
+	internal WheelConfig_Struct Struct;
+	internal WheelConfig() {}
 	
 	public float Diameter {
-		get {return this.wheelConfig.diameter;}
-		set {this.wheelConfig.diameter = value;}
+		get {return this.Struct.diameter;}
+		set {this.Struct.diameter = value;}
 	}
 	
 	public float BrakeDiameter {
-		get {return this.wheelConfig.brakeDiameter;}
-		set {this.wheelConfig.brakeDiameter = value;}
+		get {return this.Struct.brakeDiameter;}
+		set {this.Struct.brakeDiameter = value;}
 	}
 	
 	public float BrakeStaticFrictionCoef {
-		get {return this.wheelConfig.brakeStaticFrictionCoef;}
-		set {this.wheelConfig.brakeStaticFrictionCoef = value;}
+		get {return this.Struct.brakeStaticFrictionCoef;}
+		set {this.Struct.brakeStaticFrictionCoef = value;}
 	}
 	
 	public float BrakeKineticFrictionCoef {
-		get {return this.wheelConfig.brakeKineticFrictionCoef;}
-		set {this.wheelConfig.brakeKineticFrictionCoef = value;}
+		get {return this.Struct.brakeKineticFrictionCoef;}
+		set {this.Struct.brakeKineticFrictionCoef = value;}
 	}
 }
 
 public class VehicleConfig {
-	private VehicleConfig_Struct config;
-	internal VehicleConfig_Struct Struct {get {return this.config;}}
+	internal VehicleConfig_Struct Struct {get; private set;}
 	public PowerConfig Power {get; private set;}
 	public WheelConfig Wheels {get; private set;}
 	
-	internal VehicleConfig(VehicleConfig_Struct config) {
-		this.config = config;
-		this.Power = new PowerConfig(this.config.power);
-		this.Wheels = new WheelConfig(this.config.wheels);
+	internal VehicleConfig() {
+		this.Struct = new VehicleConfig_Struct();
+		this.Power = new PowerConfig();
+		this.Wheels = new WheelConfig();
+	}
+	
+	internal void Update() {
+		this.Power.Struct = this.Struct.power;
+		this.Wheels.Struct = this.Struct.wheels;
+		this.Power.Update();
 	}
 	
 	public Vector3 FrontShaft {
-		get {return this.config.frontShaft.ToVector3();}
-		set {this.config.frontShaft = new Vector3_Dreg(value);}
+		get {return this.Struct.frontShaft.ToVector3();}
+		set {this.Struct.frontShaft = new Vector3_Dreg(value);}
 	}
 	
 	public Vector3 RearShaft {
-		get {return this.config.rearShaft.ToVector3();}
-		set {this.config.rearShaft = new Vector3_Dreg(value);}
+		get {return this.Struct.rearShaft.ToVector3();}
+		set {this.Struct.rearShaft = new Vector3_Dreg(value);}
 	}
 	
 	public float MaxSteeringAngle {
-		get {return this.config.maxSteeringAngle;}
-		set {this.config.maxSteeringAngle = value;}
+		get {return this.Struct.maxSteeringAngle;}
+		set {this.Struct.maxSteeringAngle = value;}
 	}
 	
 	public float Mass {
-		get {return this.config.mass;}
-		set {this.config.mass = value;}
+		get {return this.Struct.mass;}
+		set {this.Struct.mass = value;}
 	}
 	
 	public Graph BrakeCurve {
-		get {return Graph.FromPtr(this.config.brakeCurve);}
-		set {this.config.brakeCurve = value.graphPtr;}
+		get {return Graph.FromPtr(this.Struct.brakeCurve);}
+		set {this.Struct.brakeCurve = value.graphPtr;}
 	}
 }
 
 public class VehicleControls {
-	private VehicleControls_Struct controls;
-	internal VehicleControls_Struct Struct {get {return this.controls;}}
+	internal VehicleControls_Struct Struct {get; private set;}
 	
 	public VehicleControls() {
-		this.controls = new VehicleControls_Struct();
+		this.Struct = new VehicleControls_Struct();
 	}
 	
 	internal VehicleControls(VehicleControls_Struct controls) {
-		this.controls = controls;
+		this.Struct = controls;
 	}
 	
 	public float Throttle {
-		get {return this.controls.throttle;}
-		set {this.controls.throttle = value;}
+		get {return this.Struct.throttle;}
+		set {this.Struct.throttle = value;}
 	}
 	
 	public float Brake {
-		get {return this.controls.brake;}
-		set {this.controls.brake = value;}
+		get {return this.Struct.brake;}
+		set {this.Struct.brake = value;}
 	}
 	
 	public float SteeringWheel {
-		get {return this.controls.steeringWheel;}
-		set {this.controls.steeringWheel = value;}
+		get {return this.Struct.steeringWheel;}
+		set {this.Struct.steeringWheel = value;}
 	}
 	
 	public float Clutch {
-		get {return this.controls.clutch;}
-		set {this.controls.clutch = value;}
+		get {return this.Struct.clutch;}
+		set {this.Struct.clutch = value;}
 	}
 	
 	public int Gear {
-		get {return this.controls.gear;}
-		set {this.controls.gear = value;}
+		get {return this.Struct.gear;}
+		set {this.Struct.gear = value;}
 	}
 }
 

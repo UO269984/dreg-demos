@@ -326,6 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e7d4e9400a0eb6b3933f6564f55c235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  configLoader: {fileID: 68682156}
 --- !u!114 &68682154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,6 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 169be40b511e785ad8120f655f9050a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveInitData: 0
   frontShaft: {fileID: 2084168611}
   rearShaft: {fileID: 19015235}
   referenceWheel: {fileID: 1871971678322619107}

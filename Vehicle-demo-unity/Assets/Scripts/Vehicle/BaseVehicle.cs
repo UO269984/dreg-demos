@@ -7,7 +7,7 @@ public class BaseVehicle : MonoBehaviour {
 	public Vehicle Vehicle {get; private set;}
 	private VehicleControls controls;
 	
-	private ConfigLoader configLoader;
+	public ConfigLoader configLoader;
 	private VehicleInput vehicleInput;
 	private VehicleUI vehicleUI;
 	private bool initialized = false;
@@ -15,14 +15,7 @@ public class BaseVehicle : MonoBehaviour {
 	public void Start() {
 		this.controls = new VehicleControls();
 		this.Vehicle = new Vehicle();
-		
-		this.configLoader = GetComponent<ConfigLoader>();
-		if (this.configLoader == null) {
-			Debug.LogError("ConfigLoader script not found");
-			return;
-		}
-		this.configLoader.LoadConfig(this.Vehicle.Config);
-		this.Vehicle.UpdateConfig();
+		this.Vehicle.SetVehicleConfig(this.configLoader.ConfigManager);
 		
 		this.vehicleInput = GetComponent<VehicleInput>();
 		if (this.vehicleInput == null) {

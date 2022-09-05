@@ -29,9 +29,15 @@ public class Dreg {
 	public static extern void setSaveFileFunc(SaveFileFunc newSaveFileFunc);
 	
 	[DllImport(LIBRARY_NAME)]
-	public static extern IntPtr createFloatArray(UIntPtr size);
+	public static extern IntPtr createFloatList();
 	[DllImport(LIBRARY_NAME)]
-	public static extern void deleteFloatArray(IntPtr array);
+	public static extern IntPtr getFloatList(IntPtr list, IntPtr size);
+	[DllImport(LIBRARY_NAME)]
+	public static extern void setFloatList(IntPtr list, IntPtr values, UIntPtr valuesCount);
+	[DllImport(LIBRARY_NAME)]
+	public static extern void deleteFloatList(IntPtr list);
+	[DllImport(LIBRARY_NAME)]
+	public static extern void deleteCharArray(IntPtr array);
 	
 	[DllImport(LIBRARY_NAME)]
 	public static extern IntPtr createVehicle();
@@ -47,16 +53,40 @@ public class Dreg {
 	[DllImport(LIBRARY_NAME)]
 	public static extern IntPtr getVehicleProps(IntPtr vehicle);
 	[DllImport(LIBRARY_NAME)]
-	public static extern IntPtr getVehicleConfig(IntPtr vehicle);
+	public static extern IntPtr getConfigManager(IntPtr vehicle);
 	[DllImport(LIBRARY_NAME)]
-	public static extern void updateVehicleConfig(IntPtr vehicle);
+	public static extern void setVehicleConfig(IntPtr vehicle, IntPtr configManager);
 	[DllImport(LIBRARY_NAME)]
 	public static extern void update(IntPtr vehicle, float delta);
+	
+	[DllImport(LIBRARY_NAME)]
+	public static extern IntPtr createConfigManager(char createObjects);
+	[DllImport(LIBRARY_NAME)]
+	public static extern void deleteConfigManager(IntPtr configManager);
+	[DllImport(LIBRARY_NAME)]
+	public static extern IntPtr cloneConfig(IntPtr configManager, char fullClone);
+	[DllImport(LIBRARY_NAME)]
+	public static extern IntPtr getVehicleConfig(IntPtr configManager);
+	[DllImport(LIBRARY_NAME)]
+	public static extern void updateConfig(IntPtr configManager);
+	[DllImport(LIBRARY_NAME)]
+	public static extern void loadDefaultConfig(IntPtr configManager);
+	[DllImport(LIBRARY_NAME)]
+	public static extern char loadSerializedConfig(IntPtr config, IntPtr serializedConfig);
+	[DllImport(LIBRARY_NAME)]
+	public static extern IntPtr serializeConfig(IntPtr config);
+	
+	[DllImport(LIBRARY_NAME)]
+	public static extern void setGraphSaveInitData(char saveInitData);
+	[DllImport(LIBRARY_NAME)]
+	public static extern void setDefaultBezierSamples(UIntPtr samplesPerSegment);
 	
 	[DllImport(LIBRARY_NAME)]
 	public static extern IntPtr createGraph();
 	[DllImport(LIBRARY_NAME)]
 	public static extern void deleteGraph(IntPtr graph);
+	[DllImport(LIBRARY_NAME)]
+	public static extern IntPtr cloneGraph(IntPtr graph);
 	[DllImport(LIBRARY_NAME)]
 	public static extern void loadLinearGraph(IntPtr graph, IntPtr refs, UIntPtr refsCount);
 	[DllImport(LIBRARY_NAME)]
@@ -99,7 +129,7 @@ public class Size {
 	public static int Ptr = Marshal.SizeOf(typeof(IntPtr));
 	public static int Vector2_Dreg = 2 * Float;
 	public static int Vector3_Dreg = 3 * Float;
-	public static int PowerConfig = 6 * Ptr + 2 * Float + Int;
+	public static int PowerConfig = 6 * Ptr + 2 * Float;
 	public static int WheelConfig = Float;
 	public static int VehicleConfig = 2 * Vector3_Dreg + 2 * Float + PowerConfig + WheelConfig;
 	public static int VehicleControls = 4 * Float + Int;
@@ -151,21 +181,26 @@ public class PowerConfig_Struct {
 	
 	public float torqueToRpmAccel;
 	public float driveRatio;
-	public int gearsCount;
 	public IntPtr gearRatios;
 	
 	public float[] GetGearRatios() {
-		float[] ratios = new float[this.gearsCount];
-		Marshal.Copy(this.gearRatios, ratios, 0, this.gearsCount);
+		IntPtr sizePtr = Marshal.AllocHGlobal(Size.Size_t);
+		IntPtr array = Dreg.getFloatList(this.gearRatios, sizePtr);
+		
+		float[] ratios = new float[Marshal.ReadIntPtr(sizePtr).ToInt64()];
+		if (ratios.Length != 0)
+			Marshal.Copy(array, ratios, 0, ratios.Length);
+		
+		Marshal.FreeHGlobal(sizePtr);
 		return ratios;
 	}
 	
 	public void SetGearRatios(float[] newGearRatios) {
-		this.gearsCount = newGearRatios.Length;
+		IntPtr array = Marshal.AllocHGlobal(newGearRatios.Length * Size.Float);
 		
-		Dreg.deleteFloatArray(this.gearRatios);
-		this.gearRatios = Dreg.createFloatArray((UIntPtr) this.gearsCount);
-		Marshal.Copy(newGearRatios, 0, this.gearRatios, this.gearsCount);
+		Marshal.Copy(newGearRatios, 0, array, newGearRatios.Length);
+		Dreg.setFloatList(this.gearRatios, array, (UIntPtr) newGearRatios.Length);
+		Marshal.FreeHGlobal(array);
 	}
 }
 

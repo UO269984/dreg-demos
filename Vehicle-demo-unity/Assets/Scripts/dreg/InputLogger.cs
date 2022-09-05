@@ -11,7 +11,7 @@ public class InputLogger {
 	private IntPtr inputLogger = IntPtr.Zero;
 	
 	public InputLogger(Vehicle vehicle) {
-		this.vehiclePtr = vehicle.VehiclePtr;
+		this.vehiclePtr = vehicle.Ptr;
 	}
 	
 	public bool IsActive() {
@@ -35,15 +35,10 @@ public class InputLogger {
 	public void SaveInput(String filename) {
 		CheckActive();
 		
-		IntPtr filenameCharPtr = Marshal.AllocHGlobal((filename.Length + 1) * Size.Char);
-		int i = 0;
-		foreach (char c in filename)
-			Marshal.WriteByte(filenameCharPtr, i++, (Byte) c);
-		
-		Marshal.WriteByte(filenameCharPtr, i, 0);
-		
+		IntPtr filenameCharPtr = Marshal.StringToCoTaskMemAnsi(filename);
 		Dreg.saveInputLogger(this.inputLogger, filenameCharPtr);
-		Marshal.FreeHGlobal(filenameCharPtr);
+		Marshal.FreeCoTaskMem(filenameCharPtr);
+		
 		this.inputLogger = IntPtr.Zero;
 	}
 }

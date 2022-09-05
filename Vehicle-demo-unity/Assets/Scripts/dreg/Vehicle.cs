@@ -6,51 +6,45 @@ using UnityEngine;
 
 public class Vehicle {
 	
-	private IntPtr vehiclePtr;
-	private IntPtr vehicleConfigPtr;
+	internal IntPtr Ptr {get; private set;}
+	public ConfigManager ConfigManager {get; private set;}
 	
-	public VehicleConfig Config {get; private set;}
+	public VehicleConfig Config {get {return this.ConfigManager.Config;}}
 	public VehicleState State {get; private set;}
 	public VehicleProps Props {get; private set;}
 	
 	private IntPtr controlsPtr;
-	internal IntPtr VehiclePtr {get {return this.vehiclePtr;}}
 	
 	public Vehicle() {
-		this.vehiclePtr = Dreg.createVehicle();
-		this.vehicleConfigPtr = Dreg.getVehicleConfig(this.vehiclePtr);
+		this.Ptr = Dreg.createVehicle();
 		
-		VehicleConfig_Struct configStruct = new VehicleConfig_Struct();
-		Marshal.PtrToStructure(this.vehicleConfigPtr, configStruct);
-		
-		this.Config = new VehicleConfig(configStruct);
-		this.State = new VehicleState(Dreg.getVehicleState(this.vehiclePtr));
-		this.Props = new VehicleProps(Dreg.getVehicleProps(this.vehiclePtr));
+		this.State = new VehicleState(Dreg.getVehicleState(this.Ptr));
+		this.Props = new VehicleProps(Dreg.getVehicleProps(this.Ptr));
 		
 		this.controlsPtr = Marshal.AllocHGlobal(Size.VehicleControls);
 	}
 	
 	public void Delete() {
 		Marshal.FreeHGlobal(this.controlsPtr);
-		Dreg.deleteVehicle(this.vehiclePtr);
+		Dreg.deleteVehicle(this.Ptr);
 	}
 	
 	public void Reset() {
-		Dreg.resetVehicle(this.vehiclePtr);
+		Dreg.resetVehicle(this.Ptr);
 	}
 	
 	public void SetVehicleInput(VehicleControls controls) {
 		Marshal.StructureToPtr(controls.Struct, this.controlsPtr, false);
-		Dreg.setVehicleInput(this.vehiclePtr, this.controlsPtr);
+		Dreg.setVehicleInput(this.Ptr, this.controlsPtr);
 	}
 	
-	public void UpdateConfig() {
-		Marshal.StructureToPtr(this.Config.Struct, this.vehicleConfigPtr, false);
-		Dreg.updateVehicleConfig(this.vehiclePtr);
+	public void SetVehicleConfig(ConfigManager configManager) {
+		this.ConfigManager = configManager;
+		Dreg.setVehicleConfig(this.Ptr, configManager.Ptr);
 	}
 	
 	public void Update() {
-		Dreg.update(this.vehiclePtr, Time.deltaTime);
+		Dreg.update(this.Ptr, Time.deltaTime);
 		this.State.Invalidate();
 		this.Props.Invalidate();
 	}
