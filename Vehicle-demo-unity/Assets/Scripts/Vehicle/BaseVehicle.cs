@@ -7,7 +7,7 @@ public class BaseVehicle : MonoBehaviour {
 	public Vehicle Vehicle {get; private set;}
 	private VehicleControls controls;
 	
-	public ConfigLoader configLoader;
+	public ConfigManagerScript configManagerScript;
 	private VehicleInput vehicleInput;
 	private VehicleUI vehicleUI;
 	private bool initialized = false;
@@ -15,7 +15,7 @@ public class BaseVehicle : MonoBehaviour {
 	public void Start() {
 		this.controls = new VehicleControls();
 		this.Vehicle = new Vehicle();
-		this.Vehicle.SetVehicleConfig(this.configLoader.ConfigManager);
+		this.Vehicle.SetVehicleConfig(this.configManagerScript.ConfigManager);
 		
 		this.vehicleInput = GetComponent<VehicleInput>();
 		if (this.vehicleInput == null) {
@@ -33,13 +33,8 @@ public class BaseVehicle : MonoBehaviour {
 		this.initialized = true;
 	}
 	
-	public void OnDestroy() {
-		this.Vehicle.Delete();
-	}
-	
 	public void OnEnable() {
 		if (this.initialized) {
-			this.configLoader.enabled = true;
 			this.vehicleInput.enabled = true;
 			this.vehicleUI.enabled = true;
 		}
@@ -47,7 +42,6 @@ public class BaseVehicle : MonoBehaviour {
 	
 	public void OnDisable() {
 		if (this.initialized) {
-			this.configLoader.enabled = false;
 			this.vehicleInput.enabled = false;
 			this.vehicleUI.enabled = false;
 		}

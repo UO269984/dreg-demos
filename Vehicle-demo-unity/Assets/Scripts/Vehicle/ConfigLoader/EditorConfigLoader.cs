@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class EditorConfigLoader : ConfigLoader {
 	
-	public Transform frontShaft;
-	public Transform rearShaft;
-	public Renderer referenceWheel;
-	
 	public float maxSteeringAngle = 20;
 	public float mass = 500;
 	
@@ -24,17 +20,14 @@ public class EditorConfigLoader : ConfigLoader {
 		VehicleConfig config = configManager.Config;
 		
 		config.Power.TorqueToRpmAccel = this.torqueToRpmAccel;
-		config.Power.GearRatios = this.gearRatios;
 		config.Power.NeutralIndex = this.neutralIndex;
+		config.Power.GearRatios = this.gearRatios;
 		config.Power.DriveRatio = this.driveRatio;
 		
-		config.Wheels.Diameter = this.referenceWheel.bounds.size.y;
 		config.Wheels.BrakeDiameter = this.brakeDiameter;
 		config.Wheels.BrakeStaticFrictionCoef = this.brakeStaticFrictionCoef;
 		config.Wheels.BrakeKineticFrictionCoef = this.brakeKineticFrictionCoef;
 		
-		config.FrontShaft = this.frontShaft.position - transform.position;
-		config.RearShaft = this.rearShaft.position - transform.position;
 		config.MaxSteeringAngle = this.maxSteeringAngle;
 		config.Mass = this.mass;
 		

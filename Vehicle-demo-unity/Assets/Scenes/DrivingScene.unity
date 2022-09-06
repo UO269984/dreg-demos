@@ -284,7 +284,6 @@ GameObject:
   m_Component:
   - component: {fileID: 68682152}
   - component: {fileID: 68682153}
-  - component: {fileID: 68682156}
   - component: {fileID: 68682155}
   - component: {fileID: 68682157}
   - component: {fileID: 68682154}
@@ -312,7 +311,7 @@ Transform:
   - {fileID: 593517144365162605}
   - {fileID: 1575021329}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &68682153
 MonoBehaviour:
@@ -326,7 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e7d4e9400a0eb6b3933f6564f55c235, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  configLoader: {fileID: 68682156}
+  configManagerScript: {fileID: 844622564}
 --- !u!114 &68682154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,36 +355,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hud: {fileID: 926050709}
   brakeClutchUI: {fileID: 1371349985}
---- !u!114 &68682156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 68682151}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 169be40b511e785ad8120f655f9050a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  saveInitData: 0
-  frontShaft: {fileID: 2084168611}
-  rearShaft: {fileID: 19015235}
-  referenceWheel: {fileID: 1871971678322619107}
-  maxSteeringAngle: 20
-  mass: 500
-  brakeDiameter: 30
-  brakeStaticFrictionCoef: 0.9
-  brakeKineticFrictionCoef: 0.7
-  torqueToRpmAccel: 12
-  driveRatio: 1.5
-  neutralIndex: 1
-  gearRatios:
-  - -4
-  - 0
-  - 4
-  - 2
-  - 0.8
 --- !u!114 &68682157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1039,8 +1008,99 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &844622563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 844622565}
+  - component: {fileID: 844622564}
+  - component: {fileID: 844622566}
+  - component: {fileID: 844622567}
+  m_Layer: 0
+  m_Name: ConfigManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &844622564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844622563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 815fc0af324a5653caf67210304f42be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveInitData: 0
+  configLoaders:
+  - {fileID: 844622567}
+  - {fileID: 844622566}
+--- !u!4 &844622565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844622563}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 10, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &844622566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844622563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 341f381cef78a299fbdb552777a95a27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vehicleCenter: {fileID: 68682152}
+  frontShaft: {fileID: 2084168611}
+  rearShaft: {fileID: 19015235}
+  referenceWheel: {fileID: 1871971678322619107}
+--- !u!114 &844622567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 844622563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 169be40b511e785ad8120f655f9050a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSteeringAngle: 20
+  mass: 500
+  brakeDiameter: 30
+  brakeStaticFrictionCoef: 0.9
+  brakeKineticFrictionCoef: 0.7
+  torqueToRpmAccel: 12
+  driveRatio: 1.5
+  neutralIndex: 1
+  gearRatios:
+  - -4
+  - 0
+  - 4
+  - 2
+  - 0.8
 --- !u!1001 &871216485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1488,7 +1548,7 @@ Transform:
   m_LocalScale: {x: 10, y: 1, z: 10}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1210610503
 GameObject:
@@ -1599,7 +1659,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1371349985
 GameObject:
@@ -2470,7 +2530,7 @@ RectTransform:
   - {fileID: 1925159811}
   - {fileID: 1371349986}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
