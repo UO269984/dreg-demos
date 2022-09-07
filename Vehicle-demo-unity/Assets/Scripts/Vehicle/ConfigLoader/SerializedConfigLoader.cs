@@ -7,7 +7,7 @@ public class SerializedConfigLoader : ConfigLoader {
 	
 	public int neutralIndex = 0;
 	
-	[TextArea(30, 1)]
+	[TextArea(30, 30)]
 	public String serializedConfig;
 	
 	public override void LoadConfig(ConfigManager configManager) {
