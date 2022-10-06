@@ -33,6 +33,10 @@ public class BaseVehicle : MonoBehaviour {
 		this.initialized = true;
 	}
 	
+	public void OnDestroy() {
+		this.Vehicle.Delete();
+	}
+	
 	public void OnEnable() {
 		if (this.initialized) {
 			this.vehicleInput.enabled = true;

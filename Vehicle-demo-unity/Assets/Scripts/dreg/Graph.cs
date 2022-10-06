@@ -35,16 +35,20 @@ public class Graph {
 		return new Graph(Dreg.cloneGraph(this.graphPtr));
 	}
 	
-	public void LoadLinear(Vector2[] refs) {
+	public bool LoadLinear(Vector2[] refs) {
 		IntPtr arrayPtr = Vector2ArrayToPtr(refs);
-		Dreg.loadLinearGraph(this.graphPtr, arrayPtr, (UIntPtr) refs.Length);
+		bool ret = Dreg.loadLinearGraph(this.graphPtr, arrayPtr, (UIntPtr) refs.Length) != 0;
 		Marshal.FreeHGlobal(arrayPtr);
+		
+		return ret;
 	}
 	
-	public void LoadBezier(Vector2[] refs, int samplesPerSegment) {
+	public bool LoadBezier(Vector2[] refs, int samplesPerSegment) {
 		IntPtr arrayPtr = Vector2ArrayToPtr(refs);
-		Dreg.loadBezierGraph(this.graphPtr, arrayPtr, (UIntPtr) refs.Length, (UIntPtr) samplesPerSegment);
+		bool ret = Dreg.loadBezierGraph(this.graphPtr, arrayPtr, (UIntPtr) refs.Length, (UIntPtr) samplesPerSegment) != 0;
 		Marshal.FreeHGlobal(arrayPtr);
+		
+		return ret;
 	}
 	
 	private IntPtr Vector2ArrayToPtr(Vector2[] array) {

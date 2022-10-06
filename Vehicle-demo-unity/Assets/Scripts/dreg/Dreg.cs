@@ -88,9 +88,9 @@ public class Dreg {
 	[DllImport(LIBRARY_NAME)]
 	public static extern IntPtr cloneGraph(IntPtr graph);
 	[DllImport(LIBRARY_NAME)]
-	public static extern void loadLinearGraph(IntPtr graph, IntPtr refs, UIntPtr refsCount);
+	public static extern char loadLinearGraph(IntPtr graph, IntPtr refs, UIntPtr refsCount);
 	[DllImport(LIBRARY_NAME)]
-	public static extern void loadBezierGraph(IntPtr graph, IntPtr refs, UIntPtr refsCount, UIntPtr samplesPerSegment);
+	public static extern char loadBezierGraph(IntPtr graph, IntPtr refs, UIntPtr refsCount, UIntPtr samplesPerSegment);
 	[DllImport(LIBRARY_NAME)]
 	public static extern IntPtr getGraphPoints(IntPtr graph, IntPtr pointsCount);
 	[DllImport(LIBRARY_NAME)]
