@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -273,7 +274,7 @@ public class GamepadInput : IInput {
 	}
 	
 	public static bool IsActive() {
-		return Input.GetJoystickNames().Length != 0 && Input.GetJoystickNames()[0].Length != 0;
+		return Input.GetJoystickNames().Where(x => ! "uinput-fortsense".Equals(x) && x.Length != 0).Any();
 	}
 	
 	public void AddAction(String actionName, GamepadBt bt) {
