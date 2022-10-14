@@ -274,7 +274,7 @@ public class GamepadInput : IInput {
 	}
 	
 	public static bool IsActive() {
-		return Input.GetJoystickNames().Where(x => ! "uinput-fortsense".Equals(x) && x.Length != 0).Any();
+		return Input.GetJoystickNames().Where(x => ! x.StartsWith("uinput") && x.Length != 0).Any();
 	}
 	
 	public void AddAction(String actionName, GamepadBt bt) {
