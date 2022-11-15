@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3c5a1e3583bd84ee98846d82e6d7e73a
+guid: 2b0e0e029850f694fbb44550eb80acbd
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
@@ -8,12 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material
-    second: {fileID: 2100000, guid: ab9e433407dbce806bd10efe88d37120, type: 2}
+    second: {fileID: 2100000, guid: 169f81d321f46e448abeb77ac238a49c, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: WheelMat
-    second: {fileID: 2100000, guid: 6580997c0e66eae97872fd4f0af12296, type: 2}
+    second: {fileID: 2100000, guid: c237d3bc701dfe74a93d36f492532c28, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
