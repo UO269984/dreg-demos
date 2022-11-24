@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using System.Runtime.InteropServices;
-using UnityEngine;
 
 public class Graph {
 	internal IntPtr graphPtr;
@@ -35,7 +33,7 @@ public class Graph {
 		return new Graph(Dreg.cloneGraph(this.graphPtr));
 	}
 	
-	public bool LoadLinear(Vector2[] refs) {
+	public bool LoadLinear(Vector2_Dreg[] refs) {
 		IntPtr arrayPtr = Vector2ArrayToPtr(refs);
 		bool ret = Dreg.loadLinearGraph(this.graphPtr, arrayPtr, (UIntPtr) refs.Length) != 0;
 		Marshal.FreeHGlobal(arrayPtr);
@@ -43,7 +41,7 @@ public class Graph {
 		return ret;
 	}
 	
-	public bool LoadBezier(Vector2[] refs, int samplesPerSegment) {
+	public bool LoadBezier(Vector2_Dreg[] refs, int samplesPerSegment) {
 		IntPtr arrayPtr = Vector2ArrayToPtr(refs);
 		bool ret = Dreg.loadBezierGraph(this.graphPtr, arrayPtr, (UIntPtr) refs.Length, (UIntPtr) samplesPerSegment) != 0;
 		Marshal.FreeHGlobal(arrayPtr);
@@ -51,22 +49,22 @@ public class Graph {
 		return ret;
 	}
 	
-	private IntPtr Vector2ArrayToPtr(Vector2[] array) {
+	private IntPtr Vector2ArrayToPtr(Vector2_Dreg[] array) {
 		IntPtr arrayPtr = Marshal.AllocHGlobal(array.Length * Size.Vector2_Dreg);
 		long longPtr = arrayPtr.ToInt64();
 		
-		foreach (Vector2 vector2 in array) {
-			Marshal.StructureToPtr(new Vector2_Dreg(vector2), new IntPtr(longPtr), false);
+		foreach (Vector2_Dreg vector2 in array) {
+			Marshal.StructureToPtr(vector2, new IntPtr(longPtr), false);
 			longPtr += Size.Vector2_Dreg;
 		}
 		return arrayPtr;
 	}
 	
-	public Vector2[] GetPoints() {
+	public Vector2_Dreg[] GetPoints() {
 		IntPtr pointsCountPtr = Marshal.AllocHGlobal(Size.Size_t);
 		IntPtr pointsPtr = Dreg.getGraphPoints(this.graphPtr, pointsCountPtr);
 		
-		Vector2[] points = new Vector2[Marshal.ReadIntPtr(pointsCountPtr).ToInt64()];
+		Vector2_Dreg[] points = new Vector2_Dreg[Marshal.ReadIntPtr(pointsCountPtr).ToInt64()];
 		Marshal.FreeHGlobal(pointsCountPtr);
 		
 		Vector2_Dreg auxVector2 = new Vector2_Dreg();
@@ -74,7 +72,7 @@ public class Graph {
 		
 		for (int i = 0; i < points.Length; i++) {
 			Marshal.PtrToStructure(new IntPtr(curPointPtr), auxVector2);
-			points[i] = auxVector2.ToVector2();
+			points[i] = new Vector2_Dreg(auxVector2);
 			
 			curPointPtr += Size.Vector2_Dreg;
 		}

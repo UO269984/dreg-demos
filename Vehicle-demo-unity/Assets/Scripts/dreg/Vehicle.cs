@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using System.Runtime.InteropServices;
-using UnityEngine;
 
 public class Vehicle {
 	
@@ -43,14 +41,9 @@ public class Vehicle {
 		Dreg.setVehicleConfig(this.Ptr, configManager.Ptr);
 	}
 	
-	public void Update() {
-		Dreg.update(this.Ptr, Time.deltaTime);
+	public void Update(float delta) {
+		Dreg.update(this.Ptr, delta);
 		this.State.Invalidate();
 		this.Props.Invalidate();
-	}
-	
-	public void UpdateTransform(Transform transform) {
-		transform.position = new Vector3(this.State.Pos.x, transform.position.y, this.State.Pos.z);
-		transform.eulerAngles = this.State.Rotation;
 	}
 }

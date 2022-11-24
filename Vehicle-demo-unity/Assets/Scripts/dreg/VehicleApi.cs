@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+
 using System.Runtime.InteropServices;
-using UnityEngine;
 
 public class PowerConfig {
 	internal PowerConfig_Struct Struct;
@@ -101,14 +99,14 @@ public class VehicleConfig {
 		this.Power.Update();
 	}
 	
-	public Vector3 FrontShaft {
-		get {return this.Struct.frontShaft.ToVector3();}
-		set {this.Struct.frontShaft = new Vector3_Dreg(value);}
+	public Vector3_Dreg FrontShaft {
+		get {return this.Struct.frontShaft;}
+		set {this.Struct.frontShaft = value;}
 	}
 	
-	public Vector3 RearShaft {
-		get {return this.Struct.rearShaft.ToVector3();}
-		set {this.Struct.rearShaft = new Vector3_Dreg(value);}
+	public Vector3_Dreg RearShaft {
+		get {return this.Struct.rearShaft;}
+		set {this.Struct.rearShaft = value;}
 	}
 	
 	public float MaxSteeringAngle {
@@ -194,8 +192,8 @@ public class PtrToObjConverter<T> where T : new() {
 public class VehicleState : PtrToObjConverter<VehicleState_Struct> {
 	internal VehicleState(IntPtr ptr) : base(ptr) {}
 	
-	public Vector3 Pos {get {return GetObj().pos.ToVector3();}}
-	public Vector3 Rotation {get {return GetObj().rotation.ToVector3();}}
+	public Vector3_Dreg Pos {get {return GetObj().pos;}}
+	public Vector3_Dreg Rotation {get {return GetObj().rotation;}}
 }
 
 public class VehicleProps : PtrToObjConverter<VehicleProps_Struct> {

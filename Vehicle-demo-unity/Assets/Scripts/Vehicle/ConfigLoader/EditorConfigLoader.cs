@@ -35,30 +35,30 @@ public class EditorConfigLoader : ConfigLoader {
 	}
 	
 	private void InitGraphs(VehicleConfig config) {
-		config.Power.ThrottleCurve.LoadLinear(new Vector2[] {
-			new Vector2(0, 0.02f),
-			new Vector2(0.05f, 0.02f),
-			new Vector2(1, 1)});
+		config.Power.ThrottleCurve.LoadLinear(new Vector2_Dreg[] {
+			new Vector2_Dreg(0, 0.02f),
+			new Vector2_Dreg(0.05f, 0.02f),
+			new Vector2_Dreg(1, 1)});
 		
-		config.Power.EngineCurve.LoadLinear(new Vector2[] {
-			new Vector2(0, 50),
-			new Vector2(1000, 500)});
+		config.Power.EngineCurve.LoadLinear(new Vector2_Dreg[] {
+			new Vector2_Dreg(0, 50),
+			new Vector2_Dreg(1000, 500)});
 		
-		config.Power.LooseEngineRpmCurve.LoadLinear(new Vector2[] {
-			new Vector2(0, 0),
-			new Vector2(1, 5000)});
+		config.Power.LooseEngineRpmCurve.LoadLinear(new Vector2_Dreg[] {
+			new Vector2_Dreg(0, 0),
+			new Vector2_Dreg(1, 5000)});
 		
-		config.Power.EngineBrakeCurve.LoadLinear(new Vector2[] {
-			new Vector2(0, 0),
-			new Vector2(250, 40),
-			new Vector2(5000, 100)});
+		config.Power.EngineBrakeCurve.LoadLinear(new Vector2_Dreg[] {
+			new Vector2_Dreg(0, 0),
+			new Vector2_Dreg(250, 40),
+			new Vector2_Dreg(5000, 100)});
 		
-		config.Power.ClutchCurve.LoadLinear(new Vector2[] {
-			new Vector2(0, 600),
-			new Vector2(1, 0)});
+		config.Power.ClutchCurve.LoadLinear(new Vector2_Dreg[] {
+			new Vector2_Dreg(0, 600),
+			new Vector2_Dreg(1, 0)});
 		
-		config.BrakeCurve.LoadLinear(new Vector2[] {
-			new Vector2(0, 0),
-			new Vector2(1, 500)});
+		config.BrakeCurve.LoadLinear(new Vector2_Dreg[] {
+			new Vector2_Dreg(0, 0),
+			new Vector2_Dreg(1, 500)});
 	}
 }

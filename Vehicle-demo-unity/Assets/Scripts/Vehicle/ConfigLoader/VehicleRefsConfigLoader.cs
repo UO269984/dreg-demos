@@ -12,8 +12,8 @@ public class VehicleRefsConfigLoader : ConfigLoader {
 	public override void LoadConfig(ConfigManager configManager) {
 		VehicleConfig config = configManager.Config;
 		
-		config.FrontShaft = this.frontShaft.position - this.vehicleCenter.position;
-		config.RearShaft = this.rearShaft.position - this.vehicleCenter.position;
+		config.FrontShaft = (this.frontShaft.position - this.vehicleCenter.position).ToDregVec();
+		config.RearShaft = (this.rearShaft.position - this.vehicleCenter.position).ToDregVec();
 		config.Wheels.Diameter = this.referenceWheel.bounds.size.y;
 	}
 }

@@ -60,9 +60,18 @@ public class BaseVehicle : MonoBehaviour {
 		this.vehicleInput.UpdateControls();
 		this.Vehicle.SetVehicleInput(this.controls);
 		
-		this.Vehicle.Update();
-		this.Vehicle.UpdateTransform(transform);
+		this.Vehicle.Update(Time.deltaTime);
+		UpdateTransform();
 		
 		this.vehicleUI.UpdateUI(this.Vehicle, this.controls);
+	}
+	
+	private void UpdateTransform() {
+		transform.position = new Vector3_Dreg(
+			this.Vehicle.State.Pos.x,
+			this.Vehicle.State.Pos.y,
+			transform.position.y).ToUnityVec();
+		
+		transform.eulerAngles = this.Vehicle.State.Rotation.ToUnityVec();
 	}
 }
