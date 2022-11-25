@@ -29,6 +29,8 @@ public class Vehicle {
 	
 	public void Reset() {
 		Dreg.resetVehicle(this.Ptr);
+		this.State.Invalidate();
+		this.Props.Invalidate();
 	}
 	
 	public void SetVehicleInput(VehicleControls controls) {

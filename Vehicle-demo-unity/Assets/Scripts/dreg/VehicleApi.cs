@@ -94,6 +94,8 @@ public class VehicleConfig {
 	}
 	
 	internal void Update() {
+		//Reloading config with Marshal.PtrToStructure changes Power and Wheel objects in Struct object
+		//We have to reload the Power and Wheels references
 		this.Power.Struct = this.Struct.power;
 		this.Wheels.Struct = this.Struct.wheels;
 		this.Power.Update();
@@ -172,19 +174,19 @@ public class PtrToObjConverter<T> where T : new() {
 		this.obj = new T();
 	}
 	
-	public T GetObj() {
+	internal T GetObj() {
 		if (! this.valid)
 			UpdateObj();
 		
 		return this.obj;
 	}
 	
-	public void UpdateObj() {
+	private void UpdateObj() {
 		Marshal.PtrToStructure(this.ptr, this.obj);
 		this.valid = true;
 	}
 	
-	public void Invalidate() {
+	internal void Invalidate() {
 		this.valid = false;
 	}
 }
