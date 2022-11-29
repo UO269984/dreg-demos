@@ -23,7 +23,7 @@ public class ConfigManagerScript : MonoBehaviour {
 		}}
 	
 	public void Awake() {
-		Graph.SetGraphSaveInitData(this.saveInitData);
+		Graph.SetSaveInitData(this.saveInitData);
 		this.configManager = new ConfigManager(true);
 	}
 	

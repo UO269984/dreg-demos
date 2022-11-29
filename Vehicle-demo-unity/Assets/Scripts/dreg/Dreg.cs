@@ -2,7 +2,7 @@ using System;
 
 using System.Runtime.InteropServices;
 
-public class Dreg {
+public static class Dreg {
 	
 	#if WEBGL && ! UNITY_EDITOR
 		public const String LIBRARY_NAME = "__Internal";

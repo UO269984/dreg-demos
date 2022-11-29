@@ -13,7 +13,7 @@ public class Graph {
 		this.graphPtr = graphPtr;
 	}
 	
-	public static void SetGraphSaveInitData(bool saveInitData) {
+	public static void SetSaveInitData(bool saveInitData) {
 		Dreg.setGraphSaveInitData((char) (saveInitData ? 1 : 0));
 	}
 	
