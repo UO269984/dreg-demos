@@ -5,15 +5,23 @@ using UnityEngine;
 public class Game : MonoBehaviour {
 	
 	public GameObject pauseUI;
+	public GameObject[] hudObjects;
 	public GameObject touchControlsUI;
 	
 	private bool paused = false;
 	
 	public void Start() {
 		Cursor.lockState = CursorLockMode.Locked;
-		this.touchControlsUI.SetActive(InputManager.inputType == InputType.Touch);
+		
+		if (InputManager.inputType == InputType.Touch) {
+			this.touchControlsUI.SetActive(true);
+			
+			//Move HUD elements to make room for touch buttons
+			foreach (GameObject hudObject in this.hudObjects)
+				hudObject.transform.localPosition += new Vector3(0, 100, 0);
+		}
 	}
-
+	
 	public void Update() {
 		if (InputManager.input.GetButtonAction("Pause"))
 			TogglePause();
