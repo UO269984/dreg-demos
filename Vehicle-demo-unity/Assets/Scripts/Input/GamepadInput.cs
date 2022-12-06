@@ -38,7 +38,7 @@ public class GamepadInput : IInput {
 		{GamepadBt.L2, getStandardAxis("3")},
 		{GamepadBt.R2, getStandardAxis("6")},
 		{GamepadBt.CrossX, getStandardAxis("7")},
-		{GamepadBt.CrossY, getStandardAxis("8")}
+		{GamepadBt.CrossY, getInvertedAxis("8")}
 	};
 	private static IDictionary<GamepadBt, KeyCode> buttonsMappingWindows = new Dictionary<GamepadBt, KeyCode>() {
 		{GamepadBt.X, KeyCode.JoystickButton1},
@@ -105,7 +105,7 @@ public class GamepadInput : IInput {
 		{GamepadBt.L2, getAxis0Centered("3")},
 		{GamepadBt.R2, getAxis0Centered("6")},
 		{GamepadBt.CrossX, getStandardAxis("7")},
-		{GamepadBt.CrossY, getStandardAxis("8")}
+		{GamepadBt.CrossY, getInvertedAxis("8")}
 	};
 	private static IDictionary<GamepadBt, KeyCode> buttonsMappingFirefoxWindows = new Dictionary<GamepadBt, KeyCode>() {
 		{GamepadBt.X, KeyCode.JoystickButton0},
@@ -150,7 +150,7 @@ public class GamepadInput : IInput {
 		{GamepadBt.L2, getStandardAxis("7")},
 		{GamepadBt.R2, getStandardAxis("8")},
 		{GamepadBt.CrossX, getStandardAxis("5")},
-		{GamepadBt.CrossY, getStandardAxis("6")}
+		{GamepadBt.CrossY, getInvertedAxis("6")}
 	};
 	private static IDictionary<GamepadBt, KeyCode> buttonsMappingAndroidOld = new Dictionary<GamepadBt, KeyCode>() {
 		{GamepadBt.X, KeyCode.JoystickButton1},
@@ -179,6 +179,10 @@ public class GamepadInput : IInput {
 		return new Tuple<String, Func<float, float>>(axisName, val => val);
 	}
 	
+	private static Tuple<String, Func<float, float>> getInvertedAxis(String axisName) {
+		return new Tuple<String, Func<float, float>>(axisName, val => -val);
+	}
+	
 	private static Tuple<String, Func<float, float>> getAxis0Centered(String axisName) {
 		return new Tuple<String, Func<float, float>>(axisName, val => (val + 1) / 2);
 	}
@@ -195,9 +199,9 @@ public class GamepadInput : IInput {
 		private static String getPlatform() {return null;}
 	#endif
 	
-	public IDictionary<GamepadBt, KeyCode> buttonsMapping;
-	public IDictionary<GamepadBt, Tuple<String, Func<float, float>>> axisMapping;
-	public IDictionary<String, GamepadBt> actions = new Dictionary<String, GamepadBt>();
+	private IDictionary<GamepadBt, KeyCode> buttonsMapping;
+	private IDictionary<GamepadBt, Tuple<String, Func<float, float>>> axisMapping;
+	private IDictionary<String, GamepadBt> actions = new Dictionary<String, GamepadBt>();
 	
 	private Action<String> logFunc;
 	

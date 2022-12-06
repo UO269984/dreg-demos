@@ -23,7 +23,7 @@ public class ManualVehicleInput : VehicleInput {
 	}
 	
 	public override void UpdateControls() {
-		if (InputManager.input.GetAxisAction("ToggleBrakeClutch") > 0)
+		if (InputManager.input.GetAxisAction("ToggleBrakeClutch") < 0)
 			SetBrakeActive(! this.brakeActive);
 		
 		this.controls.Throttle = InputManager.input.GetAxisAction("Throttle");
