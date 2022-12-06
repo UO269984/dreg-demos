@@ -7,7 +7,7 @@ public class TouchButtonManager : MonoBehaviour {
 	public VehicleCamera vehicleCamera;
 	private int touchButtonsPressed = 0;
 	
-	public void Start() {
+	public void LoadButtons() {
 		foreach (TouchButton bt in GameObject.FindObjectsOfType(typeof(TouchButton))) {
 			bt.MouseDownCallback = this.ButtonDown;
 			bt.MouseUpCallback = this.ButtonUp;

@@ -7,6 +7,7 @@ public class Game : MonoBehaviour {
 	public GameObject pauseUI;
 	public GameObject[] hudObjects;
 	public GameObject touchControlsUI;
+	public TouchButtonManager touchButtonManager;
 	
 	private bool paused = false;
 	
@@ -15,6 +16,7 @@ public class Game : MonoBehaviour {
 		
 		if (InputManager.inputType == InputType.Touch) {
 			this.touchControlsUI.SetActive(true);
+			this.touchButtonManager.LoadButtons();
 			
 			//Move HUD elements to make room for touch buttons
 			foreach (GameObject hudObject in this.hudObjects)

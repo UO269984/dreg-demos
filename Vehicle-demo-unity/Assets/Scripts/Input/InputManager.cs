@@ -24,7 +24,7 @@ public class InputManager : MonoBehaviour {
 	public static IInput input;
 	public static InputType inputType = InputType.Default;
 	
-	public void Awake() {
+	public void Start() {
 		CreateInput();
 		
 		TriggerInput triggerInput = new TriggerInput(input);
