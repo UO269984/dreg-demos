@@ -15,7 +15,7 @@ public class BaseVehicle : MonoBehaviour {
 	public void Start() {
 		this.controls = new VehicleControls();
 		this.Vehicle = new Vehicle();
-		this.Vehicle.SetVehicleConfig(this.configManagerScript.ConfigManager);
+		LoadConfig();
 		
 		this.vehicleInput = GetComponent<VehicleInput>();
 		if (this.vehicleInput == null) {
@@ -49,6 +49,10 @@ public class BaseVehicle : MonoBehaviour {
 			this.vehicleInput.enabled = false;
 			this.vehicleUI.enabled = false;
 		}
+	}
+	
+	public void LoadConfig() {
+		this.Vehicle.SetVehicleConfig(this.configManagerScript.LoadConfig());
 	}
 	
 	public void Reset() {

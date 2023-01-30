@@ -7,27 +7,22 @@ public class ConfigManagerScript : MonoBehaviour {
 	public bool saveInitData = false;
 	public ConfigLoader[] configLoaders;
 	
-	private bool loaded = false;
-	private ConfigManager configManager;
+	public ConfigManager ConfigManager {get; private set;}
 	
-	public ConfigManager ConfigManager {get {
-			
-			if (! this.loaded) {
-				foreach (ConfigLoader loader in this.configLoaders)
-					loader.LoadConfig(this.configManager);
-				
-				this.configManager.Update();
-				this.loaded = true;
-			}
-			return this.configManager;
-		}}
+	public ConfigManager LoadConfig() {
+		foreach (ConfigLoader loader in this.configLoaders)
+			loader.LoadConfig(this.ConfigManager);
+		
+		this.ConfigManager.Update();
+		return this.ConfigManager;
+	}
 	
 	public void Awake() {
 		Graph.SetSaveInitData(this.saveInitData);
-		this.configManager = new ConfigManager(true);
+		this.ConfigManager = new ConfigManager(true);
 	}
 	
 	public void OnDestroy() {
-		this.configManager.Delete();
+		this.ConfigManager.Delete();
 	}
 }

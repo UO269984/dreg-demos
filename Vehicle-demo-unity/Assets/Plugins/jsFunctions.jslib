@@ -40,5 +40,12 @@ mergeInto(LibraryManager.library, {
 		link.download = filename
 		
 		link.click()
+	},
+	
+	getClipboard: function(gameObject, method) {
+		gameObject = UTF8ToString(gameObject)
+		method = UTF8ToString(method)
+		
+		navigator.clipboard.readText().then(function (text) {SendMessage(gameObject, method, text)})
 	}
 })
