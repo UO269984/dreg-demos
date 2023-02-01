@@ -69,7 +69,7 @@ public class Game : MonoBehaviour {
 	}
 	
 	private void SetPlayerVehicleConfig(String text) {
-		this.configLoader.serializedConfig = text;
+		this.configLoader.serializedConfig = text.Replace("\r", "");
 		this.playerVehicle.LoadConfig();
 	}
 	
